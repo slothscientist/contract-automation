@@ -1,0 +1,28 @@
+{
+  "name": "contract-automation",
+  "version": "1.0.0",
+  "description": "Automated contract generation and signing system using DocuSeal API",
+  "main": "generate-contract.js",
+  "scripts": {
+    "generate": "node generate-contract.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:40248/git/slothscientist/contract-automation"
+  },
+  "keywords": [
+    "contract",
+    "automation",
+    "docuseal",
+    "document-generation",
+    "digital-signature"
+  ],
+  "author": "WE GO OAKLAND <salaams@wegooakland.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@docuseal/api": "^1.0.21",
+    "docx": "^9.5.1",
+    "dotenv": "^17.2.3"
+  }
+}
