@@ -4,7 +4,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel } = require('docx');
-const { DocuSeal } = require('@docuseal/api');
+const { DocusealApi } = require('@docuseal/api');
 
 // Parse command-line arguments
 function parseArgs() {
@@ -394,64 +394,31 @@ async function sendViaDocuSeal(filePath, params) {
     throw new Error('DOCUSEAL_API_KEY not found in environment variables');
   }
 
-  const docuseal = new DocuSeal(apiKey);
+  const docuseal = new DocusealApi({ key: apiKey });
 
   console.log('📤 Uploading document to DocuSeal...');
 
   try {
-    // Upload the document
+    // Read the document and encode as base64
     const fileBuffer = fs.readFileSync(filePath);
-    const blob = new Blob([fileBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const base64File = fileBuffer.toString('base64');
 
-    // Create a template from the document
-    const template = await docuseal.templates.create({
+    // Create a submission directly from the DOCX file
+    const submission = await docuseal.createSubmissionFromDocx({
       name: `Service Agreement - ${params.clientName}`,
+      send_email: true,
+      order: 'preserved',
       documents: [
         {
           name: 'service_agreement.docx',
-          file: blob,
+          file: base64File,
         },
       ],
-      fields: [
-        // Provider signature field
-        {
-          name: 'provider_signature',
-          type: 'signature',
-          role: 'Provider',
-          required: true,
-        },
-        {
-          name: 'provider_date',
-          type: 'date',
-          role: 'Provider',
-          required: true,
-        },
-        // Client signature field
-        {
-          name: 'client_signature',
-          type: 'signature',
-          role: 'Client',
-          required: true,
-        },
-        {
-          name: 'client_date',
-          type: 'date',
-          role: 'Client',
-          required: true,
-        },
-      ],
-    });
-
-    console.log('✅ Template created:', template.id);
-
-    // Create a submission to send for signing
-    const submission = await docuseal.submissions.create({
-      template_id: template.id,
-      send_email: true,
       submitters: [
         {
           role: 'Provider',
           email: process.env.PROVIDER_EMAIL || 'salaams@wegooakland.com',
+          name: 'WE GO OAKLAND',
         },
         {
           role: 'Client',
@@ -463,13 +430,20 @@ async function sendViaDocuSeal(filePath, params) {
 
     console.log('✅ Document sent for signing!');
     console.log('📧 Submission ID:', submission.id);
-    console.log('🔗 Submission URL:', submission.url);
 
-    return { template, submission };
+    // Get the submission URL from the submitters array
+    if (submission.submitters && submission.submitters.length > 0) {
+      console.log('🔗 Signing URLs:');
+      submission.submitters.forEach((submitter) => {
+        console.log(`   ${submitter.email}: ${submitter.slug ? `https://docuseal.com/s/${submitter.slug}` : 'Pending'}`);
+      });
+    }
+
+    return submission;
   } catch (error) {
     console.error('❌ DocuSeal API Error:', error.message);
     if (error.response) {
-      console.error('Response:', error.response);
+      console.error('Response:', JSON.stringify(error.response, null, 2));
     }
     throw error;
   }
