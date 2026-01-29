@@ -394,14 +394,24 @@ async function sendViaDocuSeal(filePath, params) {
     throw new Error('DOCUSEAL_API_KEY not found in environment variables');
   }
 
+  console.log('🔑 API Key found:', apiKey.substring(0, 10) + '...');
   const docuseal = new DocusealApi({ key: apiKey });
 
   console.log('📤 Uploading document to DocuSeal...');
+  console.log('   File:', filePath);
+  console.log('   Client:', params.clientName);
+  console.log('   Submitters:', [
+    `Provider: ${process.env.PROVIDER_EMAIL || 'salaams@wegooakland.com'}`,
+    `Client: ${params.signerEmail}`
+  ].join(', '));
 
   try {
     // Read the document and encode as base64
     const fileBuffer = fs.readFileSync(filePath);
     const base64File = fileBuffer.toString('base64');
+    console.log(`   File size: ${fileBuffer.length} bytes (${(base64File.length / 1024).toFixed(2)} KB base64)`);
+
+    console.log('\n⏳ Sending to DocuSeal API...');
 
     // Create a submission directly from the DOCX file
     const submission = await docuseal.createSubmissionFromDocx({
@@ -428,23 +438,45 @@ async function sendViaDocuSeal(filePath, params) {
       ],
     });
 
-    console.log('✅ Document sent for signing!');
+    console.log('\n✅ Document sent for signing!');
     console.log('📧 Submission ID:', submission.id);
+    console.log('📅 Created:', submission.created_at || 'N/A');
+    console.log('⏰ Expires:', submission.expired_at || 'Never');
+
+    // Debug: Log full submission response
+    console.log('\n🔍 Full API Response:');
+    console.log(JSON.stringify(submission, null, 2));
 
     // Get the submission URL from the submitters array
     if (submission.submitters && submission.submitters.length > 0) {
-      console.log('🔗 Signing URLs:');
+      console.log('\n🔗 Signing URLs:');
       submission.submitters.forEach((submitter) => {
-        console.log(`   ${submitter.email}: ${submitter.slug ? `https://docuseal.com/s/${submitter.slug}` : 'Pending'}`);
+        const url = submitter.slug ? `https://docuseal.com/s/${submitter.slug}` : 'Pending';
+        console.log(`   ${submitter.email}: ${url}`);
       });
     }
 
     return submission;
   } catch (error) {
-    console.error('❌ DocuSeal API Error:', error.message);
+    console.error('\n❌ DocuSeal API Error:', error.message);
+    console.error('Error type:', error.constructor.name);
+
     if (error.response) {
-      console.error('Response:', JSON.stringify(error.response, null, 2));
+      console.error('Response status:', error.response.status);
+      console.error('Response statusText:', error.response.statusText);
+      console.error('Response data:', JSON.stringify(error.response.data || error.response, null, 2));
     }
+
+    if (error.request) {
+      console.error('Request was made but no response received');
+      console.error('Request details:', error.request);
+    }
+
+    if (error.message.includes('401') || error.message.includes('403')) {
+      console.error('\n💡 Authentication Error - Your API key may be invalid or expired.');
+      console.error('Please verify your API key at: https://docuseal.com/settings/api');
+    }
+
     throw error;
   }
 }
