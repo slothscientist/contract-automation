@@ -56,10 +56,25 @@ app.post('/api/parse-proposal', async (req, res) => {
       "dueDate": "Due date in YYYY-MM-DD format or readable format"
     }
   ],
-  "servicesDescription": "Full description of services, deliverables, timeline, etc."
+  "services": [
+    {
+      "title": "Service category title (e.g., Website Design & Development)",
+      "includes": ["List of included items"],
+      "notIncluded": ["List of excluded items (if mentioned)"]
+    }
+  ],
+  "projectPhases": [
+    {
+      "phase": "Phase name",
+      "description": "What happens in this phase",
+      "duration": "Duration if mentioned"
+    }
+  ],
+  "revisionPolicy": "Revision/feedback policy if mentioned",
+  "importantNotes": ["Any important notices or warnings"]
 }
 
-Be thorough in extracting the services description - include all details about deliverables, scope, timelines, etc.`
+Be thorough in extracting service details, phases, deliverables, exclusions, and timelines.`
         },
         {
           role: "user",
@@ -590,7 +605,7 @@ function generateSignatureSection(clientName, members, hasMultipleSigners) {
 }
 
 function generateExhibitA(params) {
-  const { clientName, paymentSchedule, servicesDescription } = params;
+  const { clientName, paymentSchedule, services, projectPhases, revisionPolicy, importantNotes, servicesDescription } = params;
   const members = params.clientManagingMembers ? params.clientManagingMembers.split(',').map(m => m.trim()) : [];
   const initialsField = members.length > 1 ? "{{i:Customer1}} {{i:Customer2}}" : "{{i:Customer1}}";
 
@@ -702,28 +717,154 @@ function generateExhibitA(params) {
     );
   }
 
-  // Services Description
-  if (servicesDescription) {
+  // Services to be Provided
+  paragraphs.push(
+    new Paragraph({
+      children: [
+        new TextRun({ text: "Services to be Provided", bold: true, underline: { type: UnderlineType.SINGLE } }),
+      ],
+      spacing: { before: 400, after: 200 },
+    })
+  );
+
+  // If structured services data available, use it
+  if (services && services.length > 0) {
+    services.forEach((service, index) => {
+      // Service title (numbered)
+      paragraphs.push(
+        new Paragraph({
+          children: [
+            new TextRun({ text: `${index + 1}. `, bold: true }),
+            new TextRun({ text: service.title, bold: true }),
+          ],
+          spacing: { before: 300, after: 200 },
+        })
+      );
+
+      // Includes section
+      if (service.includes && service.includes.length > 0) {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({ text: "Includes:", italics: true }),
+            ],
+            spacing: { before: 100, after: 100 },
+          })
+        );
+
+        service.includes.forEach((item) => {
+          paragraphs.push(
+            new Paragraph({
+              text: item,
+              spacing: { after: 100 },
+              bullet: { level: 0 },
+            })
+          );
+        });
+      }
+
+      // What's Not Included section
+      if (service.notIncluded && service.notIncluded.length > 0) {
+        paragraphs.push(
+          new Paragraph({
+            children: [
+              new TextRun({ text: "What's Not Included:", bold: true, underline: { type: UnderlineType.SINGLE } }),
+            ],
+            spacing: { before: 200, after: 100 },
+          })
+        );
+
+        service.notIncluded.forEach((item) => {
+          paragraphs.push(
+            new Paragraph({
+              text: item,
+              spacing: { after: 100 },
+              bullet: { level: 0 },
+            })
+          );
+        });
+      }
+    });
+  } else if (servicesDescription) {
+    // Fallback to plain text if no structured data
+    paragraphs.push(
+      new Paragraph({
+        text: servicesDescription,
+        spacing: { after: 300 },
+      })
+    );
+  }
+
+  // Project Timeline section
+  if (projectPhases && projectPhases.length > 0) {
     paragraphs.push(
       new Paragraph({
         children: [
-          new TextRun({ text: "Services to be Provided", bold: true, underline: { type: UnderlineType.SINGLE } }),
+          new TextRun({ text: "Project Timeline", bold: true, underline: { type: UnderlineType.SINGLE } }),
+        ],
+        spacing: { before: 400, after: 200 },
+      })
+    );
+
+    projectPhases.forEach((phase, index) => {
+      paragraphs.push(
+        new Paragraph({
+          children: [
+            new TextRun({ text: `${index + 1}. ${phase.phase}`, bold: true }),
+            phase.duration ? new TextRun({ text: ` (${phase.duration})` }) : new TextRun({ text: "" }),
+          ],
+          spacing: { before: 200, after: 100 },
+        }),
+        new Paragraph({
+          text: phase.description,
+          spacing: { after: 200 },
+          indent: { left: convertInchesToTwip(0.5) },
+        })
+      );
+    });
+  }
+
+  // Revision Policy
+  if (revisionPolicy) {
+    paragraphs.push(
+      new Paragraph({
+        children: [
+          new TextRun({ text: "Revision Policy", bold: true, underline: { type: UnderlineType.SINGLE } }),
         ],
         spacing: { before: 400, after: 200 },
       }),
       new Paragraph({
-        text: servicesDescription,
+        text: revisionPolicy,
         spacing: { after: 300 },
-      }),
-      new Paragraph({
-        children: [
-          new TextRun({ text: "Customer Initials: ", italics: true }),
-          new TextRun({ text: initialsField, bold: true, color: "0000FF" }),
-        ],
-        spacing: { before: 200, after: 400 },
       })
     );
   }
+
+  // Important Notes
+  if (importantNotes && importantNotes.length > 0) {
+    importantNotes.forEach((note) => {
+      paragraphs.push(
+        new Paragraph({
+          children: [
+            new TextRun({ text: "IMPORTANT: ", bold: true, underline: { type: UnderlineType.SINGLE } }),
+            new TextRun({ text: note }),
+          ],
+          spacing: { before: 300, after: 200 },
+        })
+      );
+    });
+  }
+
+  // Final Customer Initials
+  paragraphs.push(
+    new Paragraph({
+      children: [
+        new TextRun({ text: "Customer Initials: ", italics: true }),
+        new TextRun({ text: initialsField, bold: true, color: "0000FF" }),
+      ],
+      spacing: { before: 400, after: 400 },
+    })
+  );
 
   return paragraphs;
 }
