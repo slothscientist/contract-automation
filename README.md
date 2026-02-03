@@ -42,7 +42,31 @@ PROVIDER_EMAIL=your_email@example.com
 
 ## Usage
 
-Run the script with the following command-line arguments:
+### Interactive Mode (Recommended)
+
+The easiest way to generate contracts is using the interactive prompt:
+
+```bash
+npm start
+```
+
+This will prompt you for all the required information:
+- Client Company Name
+- Signer Full Name
+- Signer Email
+- Project Start Date
+- Project End Date
+- Total Fee
+
+The script will then:
+1. Generate a contract filled with your data
+2. Automatically add signature fields in the correct positions
+3. Upload to DocuSeal with pre-configured signing areas
+4. Send emails to both parties
+
+### Command-Line Mode
+
+Alternatively, you can run the script with command-line arguments:
 
 ```bash
 node generate-contract.js \

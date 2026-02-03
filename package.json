@@ -4,6 +4,7 @@
   "description": "Automated contract generation and signing system using DocuSeal API",
   "main": "generate-contract.js",
   "scripts": {
+    "start": "node generate-contract-interactive.js",
     "generate": "node generate-contract.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
