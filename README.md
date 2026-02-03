@@ -42,15 +42,21 @@ PROVIDER_EMAIL=your_email@example.com
 
 ## Usage
 
-### Interactive Mode (Recommended)
+### 🌐 Web App (Recommended)
 
-The easiest way to generate contracts is using the interactive prompt:
+The easiest way to use the contract generator is through the web interface:
 
+1. **Start the server:**
 ```bash
 npm start
 ```
 
-This will prompt you for all the required information:
+2. **Open your browser:**
+```
+http://localhost:3000
+```
+
+3. **Fill in the form:**
 - Client Company Name
 - Signer Full Name
 - Signer Email
@@ -58,15 +64,23 @@ This will prompt you for all the required information:
 - Project End Date
 - Total Fee
 
-The script will then:
-1. Generate a contract filled with your data
-2. Automatically add signature fields in the correct positions
-3. Upload to DocuSeal with pre-configured signing areas
-4. Send emails to both parties
+4. **Click "Generate & Send Contract"**
 
-### Command-Line Mode
+The app will:
+- ✅ Generate a professional contract with all your data
+- ✅ Automatically position signature fields
+- ✅ Upload to DocuSeal
+- ✅ Send signing emails to both parties
+- ✅ Show you the submission ID and signing links
 
-Alternatively, you can run the script with command-line arguments:
+### 💻 Command-Line Options
+
+#### Interactive CLI Mode:
+```bash
+npm run cli
+```
+
+#### Direct Command-Line Mode:
 
 ```bash
 node generate-contract.js \

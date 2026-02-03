@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE GO OAKLAND - Contract Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner.active {
+            display: block;
+        }
+
+        .spinner-icon {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .message.active {
+            display: block;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .message p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .signing-urls {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #c3e6cb;
+        }
+
+        .signing-urls a {
+            color: #155724;
+            text-decoration: underline;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Contract Generator</h1>
+            <p>WE GO OAKLAND Service Agreements</p>
+        </div>
+
+        <form id="contractForm">
+            <div class="form-group">
+                <label for="clientName">Client Company Name *</label>
+                <input type="text" id="clientName" name="clientName" required placeholder="e.g., Acme Corporation">
+            </div>
+
+            <div class="form-group">
+                <label for="signerName">Signer Full Name *</label>
+                <input type="text" id="signerName" name="signerName" required placeholder="e.g., John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="signerEmail">Signer Email *</label>
+                <input type="email" id="signerEmail" name="signerEmail" required placeholder="e.g., john@acmecorp.com">
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="projectStartDate">Project Start Date *</label>
+                    <input type="date" id="projectStartDate" name="projectStartDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectEndDate">Project End Date *</label>
+                    <input type="date" id="projectEndDate" name="projectEndDate" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="totalFee">Total Fee (USD) *</label>
+                <input type="number" id="totalFee" name="totalFee" required min="0" step="0.01" placeholder="e.g., 5000">
+            </div>
+
+            <button type="submit" class="button" id="submitBtn">
+                Generate & Send Contract
+            </button>
+        </form>
+
+        <div class="spinner" id="spinner">
+            <div class="spinner-icon"></div>
+            <p style="margin-top: 10px; color: #666;">Generating contract...</p>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('contractForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('spinner');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get form data
+            const formData = {
+                clientName: document.getElementById('clientName').value,
+                signerName: document.getElementById('signerName').value,
+                signerEmail: document.getElementById('signerEmail').value,
+                projectStartDate: document.getElementById('projectStartDate').value,
+                projectEndDate: document.getElementById('projectEndDate').value,
+                totalFee: document.getElementById('totalFee').value
+            };
+
+            // Show loading state
+            submitBtn.disabled = true;
+            spinner.classList.add('active');
+            message.classList.remove('active');
+
+            try {
+                const response = await fetch('/api/generate-contract', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show success message
+                    message.className = 'message success active';
+                    message.innerHTML = `
+                        <h3>✅ Contract Generated Successfully!</h3>
+                        <p><strong>Client:</strong> ${formData.clientName}</p>
+                        <p><strong>Submission ID:</strong> ${data.submissionId}</p>
+                        <p><strong>File:</strong> ${data.fileName}</p>
+                        <div class="signing-urls">
+                            <p><strong>📧 Signing emails sent to:</strong></p>
+                            ${data.signingUrls.map(url => `
+                                <p>• ${url.email}</p>
+                            `).join('')}
+                        </div>
+                        <p style="margin-top: 15px;">Check your email for the signing link!</p>
+                    `;
+
+                    // Reset form
+                    form.reset();
+                } else {
+                    throw new Error(data.error || 'Failed to generate contract');
+                }
+            } catch (error) {
+                // Show error message
+                message.className = 'message error active';
+                message.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${error.message}</p>
+                    <p>Please try again or contact support.</p>
+                `;
+            } finally {
+                // Hide loading state
+                submitBtn.disabled = false;
+                spinner.classList.remove('active');
+            }
+        });
+
+        // Set default dates (today and 30 days from now)
+        const today = new Date();
+        const endDate = new Date();
+        endDate.setDate(today.getDate() + 30);
+
+        document.getElementById('projectStartDate').valueAsDate = today;
+        document.getElementById('projectEndDate').valueAsDate = endDate;
+    </script>
+</body>
+</html>
