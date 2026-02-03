@@ -925,7 +925,11 @@ async function sendViaDocuSeal(filePath, params) {
 // Generate contract endpoint
 app.post('/api/generate-contract', async (req, res) => {
   try {
-    console.log('Generating contract with data:', req.body);
+    console.log('=== GENERATING CONTRACT ===');
+    console.log('Full request data:', JSON.stringify(req.body, null, 2));
+    console.log('Has services?', !!req.body.services);
+    console.log('Has projectPhases?', !!req.body.projectPhases);
+    console.log('Has servicesDescription?', !!req.body.servicesDescription);
 
     // Generate contract
     const doc = generateFullContract(req.body);
@@ -944,6 +948,15 @@ app.post('/api/generate-contract', async (req, res) => {
     fs.writeFileSync(filePath, buffer);
 
     console.log('Contract saved:', fileName);
+    console.log('File size:', buffer.length, 'bytes');
+    console.log('File location:', filePath);
+
+    // Verify file was created
+    if (!fs.existsSync(filePath)) {
+      throw new Error('Contract file was not created!');
+    }
+
+    console.log('✅ Contract file verified, now sending to DocuSeal...');
 
     // Send via DocuSeal
     const submission = await sendViaDocuSeal(filePath, req.body);
