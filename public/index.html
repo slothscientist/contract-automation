@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WE GO OAKLAND - Contract Generator</title>
+    <title>WeGo! Oakland - AI Contract Generator</title>
     <style>
         * {
             margin: 0;
@@ -15,18 +15,16 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .container {
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+            max-width: 1000px;
             width: 100%;
+            margin: 0 auto;
             padding: 40px;
         }
 
@@ -41,13 +39,49 @@
             margin-bottom: 10px;
         }
 
+        .header .ai-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
         .header p {
             color: #666;
             font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .step {
+            margin-bottom: 40px;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -56,6 +90,24 @@
             color: #333;
             font-weight: 600;
             font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            min-height: 300px;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         input {
@@ -74,8 +126,7 @@
         }
 
         .button {
-            width: 100%;
-            padding: 16px;
+            padding: 16px 32px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -91,14 +142,62 @@
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .button:active {
-            transform: translateY(0);
-        }
-
         .button:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .button-full {
+            width: 100%;
+            padding: 18px;
+        }
+
+        .extracted-data {
+            display: none;
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .extracted-data.active {
+            display: block;
+        }
+
+        .extracted-data h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .data-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .data-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .data-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
         }
 
         .spinner {
@@ -154,30 +253,31 @@
             font-size: 18px;
         }
 
-        .message p {
-            margin-bottom: 5px;
+        .help-text {
             font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
         }
 
-        .signing-urls {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #c3e6cb;
+        .payment-list {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
         }
 
-        .signing-urls a {
-            color: #155724;
-            text-decoration: underline;
+        .payment-item-display {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
         }
 
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .payment-item-display:last-child {
+            border-bottom: none;
         }
 
-        @media (max-width: 600px) {
-            .row {
+        @media (max-width: 768px) {
+            .data-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -190,135 +290,238 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎯 Contract Generator</h1>
-            <p>WE GO OAKLAND Service Agreements</p>
+            <h1>🤖 AI Contract Generator</h1>
+            <div class="ai-badge">✨ Powered by AI</div>
+            <p>Paste your proposal and let AI extract everything automatically</p>
         </div>
 
-        <form id="contractForm">
-            <div class="form-group">
-                <label for="clientName">Client Company Name *</label>
-                <input type="text" id="clientName" name="clientName" required placeholder="e.g., Acme Corporation">
+        <!-- Step 1: Paste Proposal -->
+        <div class="step" id="step1">
+            <div class="step-title">
+                <span class="step-number">1</span>
+                Paste Your Proposal or Email
             </div>
 
             <div class="form-group">
-                <label for="signerName">Signer Full Name *</label>
-                <input type="text" id="signerName" name="signerName" required placeholder="e.g., John Doe">
-            </div>
+                <label for="proposalText">Proposal Text</label>
+                <textarea id="proposalText" placeholder="Paste your entire proposal, email, or contract details here...
 
-            <div class="form-group">
-                <label for="signerEmail">Signer Email *</label>
-                <input type="email" id="signerEmail" name="signerEmail" required placeholder="e.g., john@acmecorp.com">
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <label for="projectStartDate">Project Start Date *</label>
-                    <input type="date" id="projectStartDate" name="projectStartDate" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="projectEndDate">Project End Date *</label>
-                    <input type="date" id="projectEndDate" name="projectEndDate" required>
+Example:
+- Client: Two Sides of Sunlight LLC
+- Managing members: Sara Rahimian, Stacie Frederick
+- Email: sara@client.com
+- Project dates: 1/19/26 to 3/2/26
+- Total fee: $9,500
+- Deposit: $3,800 due 12/26/25
+- Services: Website design, email marketing setup..."></textarea>
+                <div class="help-text">
+                    Include client name, emails, dates, fees, payment schedule, and services description
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="totalFee">Total Fee (USD) *</label>
-                <input type="number" id="totalFee" name="totalFee" required min="0" step="0.01" placeholder="e.g., 5000">
-            </div>
-
-            <button type="submit" class="button" id="submitBtn">
-                Generate & Send Contract
+            <button class="button button-full" id="parseBtn">
+                🔍 Extract Contract Details with AI
             </button>
-        </form>
 
-        <div class="spinner" id="spinner">
-            <div class="spinner-icon"></div>
-            <p style="margin-top: 10px; color: #666;">Generating contract...</p>
+            <div class="spinner" id="parseSpinner">
+                <div class="spinner-icon"></div>
+                <p style="margin-top: 10px; color: #666;">AI is parsing your proposal...</p>
+            </div>
+
+            <div class="message" id="parseMessage"></div>
         </div>
 
-        <div class="message" id="message"></div>
+        <!-- Step 2: Review Extracted Data -->
+        <div class="extracted-data" id="extractedData">
+            <h3>✅ Extracted Contract Details</h3>
+            <p style="color: #666; margin-bottom: 20px;">Review the extracted information and make any corrections needed</p>
+
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Client Name</div>
+                    <input type="text" id="edit_clientName" class="data-value">
+                </div>
+
+                <div class="data-item">
+                    <div class="data-label">Entity Type</div>
+                    <input type="text" id="edit_clientEntity" class="data-value">
+                </div>
+
+                <div class="data-item">
+                    <div class="data-label">Managing Members</div>
+                    <input type="text" id="edit_clientManagingMembers" class="data-value">
+                </div>
+
+                <div class="data-item">
+                    <div class="data-label">Primary Email</div>
+                    <input type="email" id="edit_signerEmail" class="data-value">
+                </div>
+
+                <div class="data-item">
+                    <div class="data-label">Effective Date</div>
+                    <input type="date" id="edit_effectiveDate" class="data-value">
+                </div>
+
+                <div class="data-item">
+                    <div class="data-label">Term End Date</div>
+                    <input type="date" id="edit_termEndDate" class="data-value">
+                </div>
+            </div>
+
+            <div class="data-item" style="margin-bottom: 20px;">
+                <div class="data-label">Payment Schedule</div>
+                <div id="paymentScheduleDisplay" class="payment-list"></div>
+            </div>
+
+            <div class="data-item">
+                <div class="data-label">Services Description</div>
+                <textarea id="edit_servicesDescription" style="min-height: 200px;"></textarea>
+            </div>
+
+            <button class="button button-full" id="generateBtn" style="margin-top: 30px;">
+                📄 Generate & Send Contract
+            </button>
+
+            <div class="spinner" id="generateSpinner">
+                <div class="spinner-icon"></div>
+                <p style="margin-top: 10px; color: #666;">Generating contract and sending to DocuSeal...</p>
+            </div>
+
+            <div class="message" id="generateMessage"></div>
+        </div>
     </div>
 
     <script>
-        const form = document.getElementById('contractForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const spinner = document.getElementById('spinner');
-        const message = document.getElementById('message');
+        let extractedInfo = null;
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Parse proposal with AI
+        document.getElementById('parseBtn').addEventListener('click', async () => {
+            const proposalText = document.getElementById('proposalText').value;
 
-            // Get form data
-            const formData = {
-                clientName: document.getElementById('clientName').value,
-                signerName: document.getElementById('signerName').value,
-                signerEmail: document.getElementById('signerEmail').value,
-                projectStartDate: document.getElementById('projectStartDate').value,
-                projectEndDate: document.getElementById('projectEndDate').value,
-                totalFee: document.getElementById('totalFee').value
-            };
+            if (!proposalText || proposalText.trim().length < 50) {
+                showMessage('parseMessage', 'error', 'Please paste a valid proposal (at least 50 characters)');
+                return;
+            }
 
-            // Show loading state
-            submitBtn.disabled = true;
+            const parseBtn = document.getElementById('parseBtn');
+            const spinner = document.getElementById('parseSpinner');
+
+            parseBtn.disabled = true;
             spinner.classList.add('active');
-            message.classList.remove('active');
+            hideMessage('parseMessage');
 
             try {
-                const response = await fetch('/api/generate-contract', {
+                const response = await fetch('/api/parse-proposal', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ proposalText })
                 });
 
-                const data = await response.json();
+                const result = await response.json();
 
-                if (data.success) {
-                    // Show success message
-                    message.className = 'message success active';
-                    message.innerHTML = `
-                        <h3>✅ Contract Generated Successfully!</h3>
-                        <p><strong>Client:</strong> ${formData.clientName}</p>
-                        <p><strong>Submission ID:</strong> ${data.submissionId}</p>
-                        <p><strong>File:</strong> ${data.fileName}</p>
-                        <div class="signing-urls">
-                            <p><strong>📧 Signing emails sent to:</strong></p>
-                            ${data.signingUrls.map(url => `
-                                <p>• ${url.email}</p>
-                            `).join('')}
-                        </div>
-                        <p style="margin-top: 15px;">Check your email for the signing link!</p>
-                    `;
-
-                    // Reset form
-                    form.reset();
+                if (result.success) {
+                    extractedInfo = result.data;
+                    populateExtractedData(result.data);
+                    document.getElementById('extractedData').classList.add('active');
+                    showMessage('parseMessage', 'success', '✅ AI successfully extracted contract details! Review below and click Generate.');
                 } else {
-                    throw new Error(data.error || 'Failed to generate contract');
+                    throw new Error(result.error || 'Failed to parse proposal');
                 }
             } catch (error) {
-                // Show error message
-                message.className = 'message error active';
-                message.innerHTML = `
-                    <h3>❌ Error</h3>
-                    <p>${error.message}</p>
-                    <p>Please try again or contact support.</p>
-                `;
+                showMessage('parseMessage', 'error', `❌ ${error.message}`);
             } finally {
-                // Hide loading state
-                submitBtn.disabled = false;
+                parseBtn.disabled = false;
                 spinner.classList.remove('active');
             }
         });
 
-        // Set default dates (today and 30 days from now)
-        const today = new Date();
-        const endDate = new Date();
-        endDate.setDate(today.getDate() + 30);
+        // Populate extracted data into form fields
+        function populateExtractedData(data) {
+            document.getElementById('edit_clientName').value = data.clientName || '';
+            document.getElementById('edit_clientEntity').value = data.clientEntity || '';
+            document.getElementById('edit_clientManagingMembers').value = data.clientManagingMembers || '';
+            document.getElementById('edit_signerEmail').value = data.signerEmail || '';
+            document.getElementById('edit_effectiveDate').value = data.effectiveDate || '';
+            document.getElementById('edit_termEndDate').value = data.termEndDate || '';
+            document.getElementById('edit_servicesDescription').value = data.servicesDescription || '';
 
-        document.getElementById('projectStartDate').valueAsDate = today;
-        document.getElementById('projectEndDate').valueAsDate = endDate;
+            // Display payment schedule
+            const scheduleDiv = document.getElementById('paymentScheduleDisplay');
+            scheduleDiv.innerHTML = '';
+
+            if (data.paymentSchedule && data.paymentSchedule.length > 0) {
+                data.paymentSchedule.forEach((payment, index) => {
+                    const paymentDiv = document.createElement('div');
+                    paymentDiv.className = 'payment-item-display';
+                    paymentDiv.innerHTML = `
+                        <strong>Payment ${index + 1}:</strong> ${payment.description}<br>
+                        <strong>Amount:</strong> $${parseFloat(payment.amount).toLocaleString()}<br>
+                        <strong>Due:</strong> ${payment.dueDate}
+                    `;
+                    scheduleDiv.appendChild(paymentDiv);
+                });
+            }
+        }
+
+        // Generate contract
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const contractData = {
+                clientName: document.getElementById('edit_clientName').value,
+                clientEntity: document.getElementById('edit_clientEntity').value,
+                clientManagingMembers: document.getElementById('edit_clientManagingMembers').value,
+                signerEmail: document.getElementById('edit_signerEmail').value,
+                effectiveDate: document.getElementById('edit_effectiveDate').value,
+                termEndDate: document.getElementById('edit_termEndDate').value,
+                servicesDescription: document.getElementById('edit_servicesDescription').value,
+                paymentSchedule: extractedInfo?.paymentSchedule || []
+            };
+
+            const generateBtn = document.getElementById('generateBtn');
+            const spinner = document.getElementById('generateSpinner');
+
+            generateBtn.disabled = true;
+            spinner.classList.add('active');
+            hideMessage('generateMessage');
+
+            try {
+                const response = await fetch('/api/generate-contract', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(contractData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage('generateMessage', 'success', `
+                        <h3>✅ Contract Generated & Sent!</h3>
+                        <p><strong>Client:</strong> ${contractData.clientName}</p>
+                        <p><strong>Submission ID:</strong> ${result.submissionId}</p>
+                        <p><strong>File:</strong> ${result.fileName}</p>
+                        <p style="margin-top: 15px;">📧 Signing emails sent to all parties!</p>
+                    `);
+                } else {
+                    throw new Error(result.error || 'Failed to generate contract');
+                }
+            } catch (error) {
+                showMessage('generateMessage', 'error', `❌ ${error.message}`);
+            } finally {
+                generateBtn.disabled = false;
+                spinner.classList.remove('active');
+            }
+        });
+
+        // Helper functions
+        function showMessage(id, type, content) {
+            const message = document.getElementById(id);
+            message.className = `message ${type} active`;
+            message.innerHTML = typeof content === 'string' ? `<p>${content}</p>` : content;
+        }
+
+        function hideMessage(id) {
+            const message = document.getElementById(id);
+            message.classList.remove('active');
+        }
     </script>
 </body>
 </html>

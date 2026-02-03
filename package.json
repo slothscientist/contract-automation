@@ -4,7 +4,8 @@
   "description": "Automated contract generation and signing system using DocuSeal API",
   "main": "generate-contract.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server-ai.js",
+    "start:basic": "node server.js",
     "cli": "node generate-contract-interactive.js",
     "generate": "node generate-contract.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +28,7 @@
     "cors": "^2.8.6",
     "docx": "^9.5.1",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "openai": "^6.17.0"
   }
 }
