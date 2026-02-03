@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeGo! Oakland - Contract Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        label .optional {
+            font-weight: 400;
+            color: #999;
+            font-size: 12px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .payment-schedule {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .payment-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .payment-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-number {
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .remove-payment {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-payment {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .add-payment:hover {
+            background: #5568d3;
+        }
+
+        .button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner.active {
+            display: block;
+        }
+
+        .spinner-icon {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .message.active {
+            display: block;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .message p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Contract Generator</h1>
+            <p>WeGo! Oakland Service Agreements</p>
+        </div>
+
+        <form id="contractForm">
+            <!-- Client Information -->
+            <div class="section">
+                <h2 class="section-title">Client Information</h2>
+
+                <div class="form-group">
+                    <label for="clientName">Client Name/Company *</label>
+                    <input type="text" id="clientName" required placeholder="e.g., Two Sides of Sunlight LLC">
+                </div>
+
+                <div class="form-group">
+                    <label for="clientEntity">Entity Type <span class="optional">(optional)</span></label>
+                    <input type="text" id="clientEntity" placeholder="e.g., a limited liability company">
+                </div>
+
+                <div class="form-group">
+                    <label for="clientManagingMembers">Managing Members <span class="optional">(comma-separated if multiple)</span></label>
+                    <input type="text" id="clientManagingMembers" placeholder="e.g., Sara Rahimian, Stacie Frederick">
+                    <div class="help-text">Enter names separated by commas if there are multiple members</div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="signerEmail">Primary Signer Email *</label>
+                        <input type="email" id="signerEmail" required placeholder="e.g., sara@client.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signerEmail2">Second Signer Email <span class="optional">(if applicable)</span></label>
+                        <input type="email" id="signerEmail2" placeholder="e.g., stacie@client.com">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dates -->
+            <div class="section">
+                <h2 class="section-title">Contract Dates</h2>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="effectiveDate">Effective Date *</label>
+                        <input type="date" id="effectiveDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="termEndDate">Term End Date *</label>
+                        <input type="date" id="termEndDate" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Schedule -->
+            <div class="section">
+                <h2 class="section-title">Payment Schedule</h2>
+
+                <div class="payment-schedule" id="paymentSchedule">
+                    <!-- Payment items will be added here -->
+                </div>
+
+                <button type="button" class="add-payment" onclick="addPayment()">+ Add Payment</button>
+            </div>
+
+            <!-- Services -->
+            <div class="section">
+                <h2 class="section-title">Services & Scope of Work</h2>
+
+                <div class="form-group">
+                    <label for="servicesDescription">Services Description *</label>
+                    <textarea id="servicesDescription" required placeholder="Paste or type the full scope of work, services to be provided, deliverables, timelines, etc."></textarea>
+                    <div class="help-text">This will appear in Exhibit A. You can paste your proposal here.</div>
+                </div>
+            </div>
+
+            <button type="submit" class="button" id="submitBtn">
+                Generate & Send Contract
+            </button>
+        </form>
+
+        <div class="spinner" id="spinner">
+            <div class="spinner-icon"></div>
+            <p style="margin-top: 10px; color: #666;">Generating contract...</p>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        let paymentCount = 0;
+
+        // Add a payment to the schedule
+        function addPayment() {
+            paymentCount++;
+            const scheduleDiv = document.getElementById('paymentSchedule');
+
+            const paymentDiv = document.createElement('div');
+            paymentDiv.className = 'payment-item';
+            paymentDiv.id = `payment-${paymentCount}`;
+
+            paymentDiv.innerHTML = `
+                <div class="payment-header">
+                    <span class="payment-number">Payment #${paymentCount}</span>
+                    <button type="button" class="remove-payment" onclick="removePayment(${paymentCount})">Remove</button>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" name="payment_desc_${paymentCount}" placeholder="e.g., Non-refundable deposit" required>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Amount ($)</label>
+                        <input type="number" name="payment_amount_${paymentCount}" min="0" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" name="payment_date_${paymentCount}" required>
+                    </div>
+                </div>
+            `;
+
+            scheduleDiv.appendChild(paymentDiv);
+        }
+
+        // Remove a payment from the schedule
+        function removePayment(id) {
+            const paymentDiv = document.getElementById(`payment-${id}`);
+            if (paymentDiv) {
+                paymentDiv.remove();
+            }
+        }
+
+        // Initialize with one payment
+        addPayment();
+
+        // Set default dates
+        const today = new Date();
+        document.getElementById('effectiveDate').valueAsDate = today;
+
+        const endDate = new Date();
+        endDate.setMonth(today.getMonth() + 3);
+        document.getElementById('termEndDate').valueAsDate = endDate;
+
+        // Form submission
+        const form = document.getElementById('contractForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('spinner');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Collect payment schedule
+            const paymentSchedule = [];
+            for (let i = 1; i <= paymentCount; i++) {
+                const descInput = document.querySelector(`input[name="payment_desc_${i}"]`);
+                const amountInput = document.querySelector(`input[name="payment_amount_${i}"]`);
+                const dateInput = document.querySelector(`input[name="payment_date_${i}"]`);
+
+                if (descInput && descInput.parentElement.parentElement.parentElement.style.display !== 'none') {
+                    paymentSchedule.push({
+                        description: descInput.value,
+                        amount: amountInput.value,
+                        dueDate: dateInput.value
+                    });
+                }
+            }
+
+            // Collect form data
+            const formData = {
+                clientName: document.getElementById('clientName').value,
+                clientEntity: document.getElementById('clientEntity').value,
+                clientManagingMembers: document.getElementById('clientManagingMembers').value,
+                signerEmail: document.getElementById('signerEmail').value,
+                signerEmail2: document.getElementById('signerEmail2').value,
+                effectiveDate: document.getElementById('effectiveDate').value,
+                termEndDate: document.getElementById('termEndDate').value,
+                servicesDescription: document.getElementById('servicesDescription').value,
+                paymentSchedule: paymentSchedule
+            };
+
+            // Show loading
+            submitBtn.disabled = true;
+            spinner.classList.add('active');
+            message.classList.remove('active');
+
+            try {
+                const response = await fetch('/api/generate-contract', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    message.className = 'message success active';
+                    message.innerHTML = `
+                        <h3>✅ Contract Generated Successfully!</h3>
+                        <p><strong>Client:</strong> ${formData.clientName}</p>
+                        <p><strong>Submission ID:</strong> ${data.submissionId}</p>
+                        <p><strong>File:</strong> ${data.fileName}</p>
+                        <p style="margin-top: 15px;"><strong>📧 Signing emails sent to all parties!</strong></p>
+                        <p>Check your inbox for the signing links.</p>
+                    `;
+
+                    form.reset();
+                    document.getElementById('paymentSchedule').innerHTML = '';
+                    paymentCount = 0;
+                    addPayment();
+                } else {
+                    throw new Error(data.error || 'Failed to generate contract');
+                }
+            } catch (error) {
+                message.className = 'message error active';
+                message.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${error.message}</p>
+                    <p>Please try again or contact support.</p>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                spinner.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
