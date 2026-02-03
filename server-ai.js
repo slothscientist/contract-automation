@@ -6,7 +6,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const OpenAI = require('openai');
-const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, convertInchesToTwip } = require('docx');
+const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, UnderlineType, convertInchesToTwip } = require('docx');
 const { DocusealApi } = require('@docuseal/api');
 
 const app = express();
@@ -616,22 +616,22 @@ function generateExhibitA(params) {
     }),
     new Paragraph({
       children: [
-        new TextRun({ text: "Customer: ", bold: true }),
-        new TextRun({ text: clientName }),
+        new TextRun({ text: "Customer:", bold: true, underline: { type: UnderlineType.SINGLE } }),
+        new TextRun({ text: ` ${clientName}` }),
       ],
       spacing: { after: 100 },
     }),
     new Paragraph({
       children: [
-        new TextRun({ text: "Service Provider: ", bold: true }),
-        new TextRun({ text: "WeGo! Oakland" }),
+        new TextRun({ text: "Service Provider:", bold: true, underline: { type: UnderlineType.SINGLE } }),
+        new TextRun({ text: " WeGo! Oakland" }),
       ],
       spacing: { after: 100 },
     }),
     new Paragraph({
       children: [
-        new TextRun({ text: "Service Provider Business Hours: ", bold: true }),
-        new TextRun({ text: 'Business hours are Monday through Friday, 10 a.m.-5 p.m. PST or PDT, as applicable ("Business Hours")' }),
+        new TextRun({ text: "Service Provider Business Hours:", bold: true, underline: { type: UnderlineType.SINGLE } }),
+        new TextRun({ text: ' Business hours are Monday through Friday, 10 a.m.-5 p.m. PST or PDT, as applicable ("Business Hours")' }),
       ],
       spacing: { after: 400 },
     }),
@@ -641,8 +641,9 @@ function generateExhibitA(params) {
   if (paymentSchedule && paymentSchedule.length > 0) {
     paragraphs.push(
       new Paragraph({
-        text: "Fee Schedule and Payment Details",
-        heading: HeadingLevel.HEADING_3,
+        children: [
+          new TextRun({ text: "Fee Schedule and Payment Details", bold: true, underline: { type: UnderlineType.SINGLE } }),
+        ],
         spacing: { before: 400, after: 200 },
       })
     );
@@ -664,9 +665,14 @@ function generateExhibitA(params) {
     );
 
     paymentSchedule.forEach((payment) => {
+      const formattedAmount = `$${parseFloat(payment.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       paragraphs.push(
         new Paragraph({
-          text: `$${parseFloat(payment.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}, ${payment.description}, due ${payment.dueDate}`,
+          children: [
+            new TextRun({ text: formattedAmount, bold: true }),
+            new TextRun({ text: `, ${payment.description}, due ` }),
+            new TextRun({ text: payment.dueDate, bold: true }),
+          ],
           spacing: { after: 100 },
           bullet: { level: 0 },
         })
@@ -688,7 +694,7 @@ function generateExhibitA(params) {
       }),
       new Paragraph({
         children: [
-          new TextRun({ text: "Customer Initials: " }),
+          new TextRun({ text: "Customer Initials: ", italics: true }),
           new TextRun({ text: initialsField, bold: true, color: "0000FF" }),
         ],
         spacing: { before: 300, after: 400 },
@@ -700,8 +706,9 @@ function generateExhibitA(params) {
   if (servicesDescription) {
     paragraphs.push(
       new Paragraph({
-        text: "Services to be Provided",
-        heading: HeadingLevel.HEADING_3,
+        children: [
+          new TextRun({ text: "Services to be Provided", bold: true, underline: { type: UnderlineType.SINGLE } }),
+        ],
         spacing: { before: 400, after: 200 },
       }),
       new Paragraph({
@@ -710,7 +717,7 @@ function generateExhibitA(params) {
       }),
       new Paragraph({
         children: [
-          new TextRun({ text: "Customer Initials: " }),
+          new TextRun({ text: "Customer Initials: ", italics: true }),
           new TextRun({ text: initialsField, bold: true, color: "0000FF" }),
         ],
         spacing: { before: 200, after: 400 },
