@@ -880,6 +880,17 @@ async function sendViaDocuSeal(filePath, params) {
   const docuseal = new DocusealApi({ key: apiKey });
 
   const fileBuffer = fs.readFileSync(filePath);
+  console.log('📄 Reading file for DocuSeal:', filePath);
+  console.log('📏 File size being sent:', fileBuffer.length, 'bytes');
+
+  // VERIFY the file contains Section 4 by checking buffer
+  const bufferStr = fileBuffer.toString();
+  if (bufferStr.includes('Limited Warranty')) {
+    console.log('✅ File contains "Limited Warranty" - Section 4 is present!');
+  } else {
+    console.log('❌ WARNING: File does NOT contain "Limited Warranty" - Section 4 missing!');
+  }
+
   const base64File = fileBuffer.toString('base64');
 
   const members = params.clientManagingMembers ? params.clientManagingMembers.split(',').map(m => m.trim()) : [];
@@ -947,9 +958,14 @@ app.post('/api/generate-contract', async (req, res) => {
     const buffer = await Packer.toBuffer(doc);
     fs.writeFileSync(filePath, buffer);
 
+    // ALSO save a debug copy that won't be deleted
+    const debugPath = path.join(__dirname, 'DEBUG-LAST-CONTRACT.docx');
+    fs.writeFileSync(debugPath, buffer);
+
     console.log('Contract saved:', fileName);
     console.log('File size:', buffer.length, 'bytes');
     console.log('File location:', filePath);
+    console.log('🔍 Debug copy saved to:', debugPath);
 
     // Verify file was created
     if (!fs.existsSync(filePath)) {
