@@ -473,7 +473,12 @@ Example:
                 effectiveDate: document.getElementById('edit_effectiveDate').value,
                 termEndDate: document.getElementById('edit_termEndDate').value,
                 servicesDescription: document.getElementById('edit_servicesDescription').value,
-                paymentSchedule: extractedInfo?.paymentSchedule || []
+                paymentSchedule: extractedInfo?.paymentSchedule || [],
+                // ADD THE MISSING FIELDS FOR EXHIBIT A
+                services: extractedInfo?.services || [],
+                projectPhases: extractedInfo?.projectPhases || [],
+                revisionPolicy: extractedInfo?.revisionPolicy || '',
+                importantNotes: extractedInfo?.importantNotes || []
             };
 
             const generateBtn = document.getElementById('generateBtn');
