@@ -13,8 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const APP_URL = process.env.APP_URL || `http://localhost:${PORT}`;
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const resend = new Resend(process.env.RESEND_API_KEY);
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || 'missing' });
+const resend = new Resend(process.env.RESEND_API_KEY || 'missing');
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
