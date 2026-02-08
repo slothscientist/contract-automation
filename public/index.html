@@ -5,388 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeGo! Oakland - AI Contract Generator</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 40px 20px;
         }
-
         .container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 1000px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
             width: 100%;
             margin: 0 auto;
             padding: 40px;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .header .ai-badge {
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { color: #333; font-size: 28px; margin-bottom: 10px; }
+        .ai-badge {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 10px;
+            color: white; padding: 6px 16px; border-radius: 20px;
+            font-size: 14px; font-weight: 600; margin-top: 10px;
         }
-
-        .header p {
-            color: #666;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        .step {
-            margin-bottom: 40px;
-        }
-
-        .step-number {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: 700;
-            margin-right: 10px;
-        }
-
         .step-title {
-            font-size: 20px;
-            color: #333;
-            margin-bottom: 15px;
-            font-weight: 700;
+            font-size: 20px; color: #333; margin-bottom: 15px; font-weight: 700;
         }
-
-        .form-group {
-            margin-bottom: 20px;
+        .step-number {
+            display: inline-block; background: #667eea; color: white;
+            width: 30px; height: 30px; border-radius: 50%;
+            text-align: center; line-height: 30px; font-weight: 700; margin-right: 10px;
         }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 14px; }
         textarea {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            min-height: 300px;
-            resize: vertical;
-            transition: all 0.3s;
+            width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 8px;
+            font-size: 15px; font-family: 'Courier New', monospace; min-height: 280px;
+            resize: vertical; transition: all 0.3s;
         }
-
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
+        textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
         input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
+            width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0;
+            border-radius: 8px; font-size: 15px; transition: all 0.3s;
         }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
+        input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
         .button {
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .button-full {
+            padding: 16px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 8px; font-size: 18px;
+            font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
             width: 100%;
-            padding: 18px;
         }
-
+        .button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
+        .button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
         .extracted-data {
-            display: none;
-            background: #f8f9fa;
-            border: 2px solid #667eea;
-            border-radius: 12px;
-            padding: 30px;
-            margin-top: 20px;
+            display: none; background: #f8f9fa; border: 2px solid #667eea;
+            border-radius: 12px; padding: 30px; margin-top: 20px;
         }
-
-        .extracted-data.active {
-            display: block;
-        }
-
-        .extracted-data h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .data-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .data-label {
-            font-size: 12px;
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .data-value {
-            font-size: 16px;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .spinner {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .spinner.active {
-            display: block;
-        }
-
+        .extracted-data.active { display: block; }
+        .extracted-data h3 { color: #667eea; margin-bottom: 20px; font-size: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .field-box { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .field-label { font-size: 12px; color: #666; font-weight: 600; margin-bottom: 5px; text-transform: uppercase; }
+        .spinner { display: none; text-align: center; margin: 20px 0; }
+        .spinner.active { display: block; }
         .spinner-icon {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+            border: 4px solid #f3f3f3; border-top: 4px solid #667eea;
+            border-radius: 50%; width: 40px; height: 40px;
+            animation: spin 1s linear infinite; margin: 0 auto;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .message {
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .message.active {
-            display: block;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .message h3 {
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .help-text {
-            font-size: 14px;
-            color: #666;
-            margin-top: 8px;
-            font-style: italic;
-        }
-
-        .payment-list {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
-        .payment-item-display {
-            padding: 10px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .payment-item-display:last-child {
-            border-bottom: none;
-        }
-
-        @media (max-width: 768px) {
-            .data-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 30px 20px;
-            }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .message { padding: 16px; border-radius: 8px; margin-top: 20px; display: none; }
+        .message.active { display: block; }
+        .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .message h3 { margin-bottom: 10px; }
+        .help-text { font-size: 13px; color: #888; margin-top: 6px; font-style: italic; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } .container { padding: 20px; } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 AI Contract Generator</h1>
-            <div class="ai-badge">✨ Powered by AI</div>
-            <p>Paste your proposal and let AI extract everything automatically</p>
+            <h1>WeGo! Oakland Contract Generator</h1>
+            <div class="ai-badge">✨ AI-Powered</div>
         </div>
 
         <!-- Step 1: Paste Proposal -->
-        <div class="step" id="step1">
+        <div class="form-group">
             <div class="step-title">
                 <span class="step-number">1</span>
-                Paste Your Proposal or Email
+                Paste Your Proposal
             </div>
-
-            <div class="form-group">
-                <label for="proposalText">Proposal Text</label>
-                <textarea id="proposalText" placeholder="Paste your entire proposal, email, or contract details here...
+            <textarea id="proposalText" placeholder="Paste your entire proposal, email, or project details here...
 
 Example:
-- Client: Two Sides of Sunlight LLC
-- Managing members: Sara Rahimian, Stacie Frederick
-- Email: sara@client.com
-- Project dates: 1/19/26 to 3/2/26
-- Total fee: $9,500
-- Deposit: $3,800 due 12/26/25
-- Services: Website design, email marketing setup..."></textarea>
-                <div class="help-text">
-                    Include client name, emails, dates, fees, payment schedule, and services description
-                </div>
-            </div>
-
-            <button class="button button-full" id="parseBtn">
-                🔍 Extract Contract Details with AI
-            </button>
-
-            <div class="spinner" id="parseSpinner">
-                <div class="spinner-icon"></div>
-                <p style="margin-top: 10px; color: #666;">AI is parsing your proposal...</p>
-            </div>
-
-            <div class="message" id="parseMessage"></div>
+- Client: SF African American Chamber of Commerce
+- Email: helena@sfaacc.org
+- Project dates: 2/23/2026 to 5/10/2026
+- Total fee: $9,000
+- 50% deposit ($4,500) due upon signing
+- 50% balance ($4,500) due at launch
+- Services: Website redesign + member management platform
+- Includes: 20-page redesign, member directory, event calendar..."></textarea>
+            <div class="help-text">Include client name, email, dates, fees, and services description</div>
         </div>
 
-        <!-- Step 2: Review Extracted Data -->
+        <button class="button" id="parseBtn">🔍 Extract Contract Details with AI</button>
+
+        <div class="spinner" id="parseSpinner">
+            <div class="spinner-icon"></div>
+            <p style="margin-top:10px;color:#666;">AI is parsing your proposal...</p>
+        </div>
+        <div class="message" id="parseMessage"></div>
+
+        <!-- Step 2: Review & Send -->
         <div class="extracted-data" id="extractedData">
-            <h3>✅ Extracted Contract Details</h3>
-            <p style="color: #666; margin-bottom: 20px;">Review the extracted information and make any corrections needed</p>
+            <h3>✅ Review Extracted Details</h3>
+            <p style="color:#666;margin-bottom:20px;">Make any corrections, then click Send.</p>
 
-            <div class="data-grid">
-                <div class="data-item">
-                    <div class="data-label">Client Name</div>
-                    <input type="text" id="edit_clientName" class="data-value">
+            <div class="grid-2">
+                <div class="field-box">
+                    <div class="field-label">Client Name</div>
+                    <input type="text" id="f_clientName">
                 </div>
-
-                <div class="data-item">
-                    <div class="data-label">Entity Type</div>
-                    <input type="text" id="edit_clientEntity" class="data-value">
+                <div class="field-box">
+                    <div class="field-label">Client Email</div>
+                    <input type="email" id="f_signerEmail">
                 </div>
-
-                <div class="data-item">
-                    <div class="data-label">Managing Members</div>
-                    <input type="text" id="edit_clientManagingMembers" class="data-value">
+                <div class="field-box">
+                    <div class="field-label">Effective Date</div>
+                    <input type="text" id="f_effectiveDate" placeholder="MM/DD/YYYY">
                 </div>
-
-                <div class="data-item">
-                    <div class="data-label">Primary Email</div>
-                    <input type="email" id="edit_signerEmail" class="data-value">
+                <div class="field-box">
+                    <div class="field-label">End / Launch Date</div>
+                    <input type="text" id="f_termEndDate" placeholder="MM/DD/YYYY">
                 </div>
-
-                <div class="data-item">
-                    <div class="data-label">Effective Date</div>
-                    <input type="date" id="edit_effectiveDate" class="data-value">
+                <div class="field-box">
+                    <div class="field-label">Payment 1</div>
+                    <input type="text" id="f_payment1" placeholder="$4,500 - 50% deposit upon signing">
                 </div>
-
-                <div class="data-item">
-                    <div class="data-label">Term End Date</div>
-                    <input type="date" id="edit_termEndDate" class="data-value">
+                <div class="field-box">
+                    <div class="field-label">Payment 2</div>
+                    <input type="text" id="f_payment2" placeholder="$4,500 - 50% balance at launch">
                 </div>
             </div>
 
-            <div class="data-item" style="margin-bottom: 20px;">
-                <div class="data-label">Payment Schedule</div>
-                <div id="paymentScheduleDisplay" class="payment-list"></div>
+            <div class="field-box" style="margin-bottom:20px;">
+                <div class="field-label">Services Title</div>
+                <input type="text" id="f_servicesTitle" placeholder="Website Design & Development">
             </div>
 
-            <div class="data-item">
-                <div class="data-label">Services Description</div>
-                <textarea id="edit_servicesDescription" style="min-height: 200px;"></textarea>
+            <div class="field-box" style="margin-bottom:20px;">
+                <div class="field-label">Services Description</div>
+                <textarea id="f_servicesDescription" style="min-height:100px;"></textarea>
             </div>
 
-            <button class="button button-full" id="generateBtn" style="margin-top: 30px;">
+            <div class="field-box" style="margin-bottom:20px;">
+                <div class="field-label">Includes (bullet list)</div>
+                <textarea id="f_includesList" style="min-height:150px;"></textarea>
+            </div>
+
+            <button class="button" id="generateBtn" style="margin-top:20px;">
                 📄 Generate & Send Contract
             </button>
 
             <div class="spinner" id="generateSpinner">
                 <div class="spinner-icon"></div>
-                <p style="margin-top: 10px; color: #666;">Generating contract and sending to DocuSeal...</p>
+                <p style="margin-top:10px;color:#666;">Sending contract via DocuSeal...</p>
             </div>
-
             <div class="message" id="generateMessage"></div>
         </div>
     </div>
@@ -394,20 +181,16 @@ Example:
     <script>
         let extractedInfo = null;
 
-        // Parse proposal with AI
         document.getElementById('parseBtn').addEventListener('click', async () => {
             const proposalText = document.getElementById('proposalText').value;
-
             if (!proposalText || proposalText.trim().length < 50) {
                 showMessage('parseMessage', 'error', 'Please paste a valid proposal (at least 50 characters)');
                 return;
             }
 
-            const parseBtn = document.getElementById('parseBtn');
-            const spinner = document.getElementById('parseSpinner');
-
-            parseBtn.disabled = true;
-            spinner.classList.add('active');
+            const btn = document.getElementById('parseBtn');
+            btn.disabled = true;
+            document.getElementById('parseSpinner').classList.add('active');
             hideMessage('parseMessage');
 
             try {
@@ -416,76 +199,52 @@ Example:
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ proposalText })
                 });
-
                 const result = await response.json();
-
                 if (result.success) {
                     extractedInfo = result.data;
-                    populateExtractedData(result.data);
+                    populateFields(result.data);
                     document.getElementById('extractedData').classList.add('active');
-                    showMessage('parseMessage', 'success', '✅ AI successfully extracted contract details! Review below and click Generate.');
+                    showMessage('parseMessage', 'success', '✅ Done! Review the details below and click Send.');
                 } else {
-                    throw new Error(result.error || 'Failed to parse proposal');
+                    throw new Error(result.error || 'Failed to parse');
                 }
-            } catch (error) {
-                showMessage('parseMessage', 'error', `❌ ${error.message}`);
+            } catch (e) {
+                showMessage('parseMessage', 'error', '❌ ' + e.message);
             } finally {
-                parseBtn.disabled = false;
-                spinner.classList.remove('active');
+                btn.disabled = false;
+                document.getElementById('parseSpinner').classList.remove('active');
             }
         });
 
-        // Populate extracted data into form fields
-        function populateExtractedData(data) {
-            document.getElementById('edit_clientName').value = data.clientName || '';
-            document.getElementById('edit_clientEntity').value = data.clientEntity || '';
-            document.getElementById('edit_clientManagingMembers').value = data.clientManagingMembers || '';
-            document.getElementById('edit_signerEmail').value = data.signerEmail || '';
-            document.getElementById('edit_effectiveDate').value = data.effectiveDate || '';
-            document.getElementById('edit_termEndDate').value = data.termEndDate || '';
-            document.getElementById('edit_servicesDescription').value = data.servicesDescription || '';
-
-            // Display payment schedule
-            const scheduleDiv = document.getElementById('paymentScheduleDisplay');
-            scheduleDiv.innerHTML = '';
-
-            if (data.paymentSchedule && data.paymentSchedule.length > 0) {
-                data.paymentSchedule.forEach((payment, index) => {
-                    const paymentDiv = document.createElement('div');
-                    paymentDiv.className = 'payment-item-display';
-                    paymentDiv.innerHTML = `
-                        <strong>Payment ${index + 1}:</strong> ${payment.description}<br>
-                        <strong>Amount:</strong> $${parseFloat(payment.amount).toLocaleString()}<br>
-                        <strong>Due:</strong> ${payment.dueDate}
-                    `;
-                    scheduleDiv.appendChild(paymentDiv);
-                });
-            }
+        function populateFields(data) {
+            document.getElementById('f_clientName').value = data.clientName || '';
+            document.getElementById('f_signerEmail').value = data.signerEmail || '';
+            document.getElementById('f_effectiveDate').value = data.effectiveDate || '';
+            document.getElementById('f_termEndDate').value = data.termEndDate || '';
+            document.getElementById('f_payment1').value = data.payment1 || '';
+            document.getElementById('f_payment2').value = data.payment2 || '';
+            document.getElementById('f_servicesTitle').value = data.servicesTitle || '';
+            document.getElementById('f_servicesDescription').value = data.servicesDescription || '';
+            document.getElementById('f_includesList').value = data.includesList || '';
         }
 
-        // Generate contract
         document.getElementById('generateBtn').addEventListener('click', async () => {
             const contractData = {
-                clientName: document.getElementById('edit_clientName').value,
-                clientEntity: document.getElementById('edit_clientEntity').value,
-                clientManagingMembers: document.getElementById('edit_clientManagingMembers').value,
-                signerEmail: document.getElementById('edit_signerEmail').value,
-                effectiveDate: document.getElementById('edit_effectiveDate').value,
-                termEndDate: document.getElementById('edit_termEndDate').value,
-                servicesDescription: document.getElementById('edit_servicesDescription').value,
-                paymentSchedule: extractedInfo?.paymentSchedule || [],
-                // ADD THE MISSING FIELDS FOR EXHIBIT A
-                services: extractedInfo?.services || [],
-                projectPhases: extractedInfo?.projectPhases || [],
-                revisionPolicy: extractedInfo?.revisionPolicy || '',
-                importantNotes: extractedInfo?.importantNotes || []
+                clientName: document.getElementById('f_clientName').value,
+                signerEmail: document.getElementById('f_signerEmail').value,
+                effectiveDate: document.getElementById('f_effectiveDate').value,
+                termEndDate: document.getElementById('f_termEndDate').value,
+                payment1: document.getElementById('f_payment1').value,
+                payment2: document.getElementById('f_payment2').value,
+                launchDate: document.getElementById('f_termEndDate').value,
+                servicesTitle: document.getElementById('f_servicesTitle').value,
+                servicesDescription: document.getElementById('f_servicesDescription').value,
+                includesList: document.getElementById('f_includesList').value
             };
 
-            const generateBtn = document.getElementById('generateBtn');
-            const spinner = document.getElementById('generateSpinner');
-
-            generateBtn.disabled = true;
-            spinner.classList.add('active');
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            document.getElementById('generateSpinner').classList.add('active');
             hideMessage('generateMessage');
 
             try {
@@ -494,38 +253,32 @@ Example:
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(contractData)
                 });
-
                 const result = await response.json();
-
                 if (result.success) {
                     showMessage('generateMessage', 'success', `
-                        <h3>✅ Contract Generated & Sent!</h3>
+                        <h3>✅ Contract Sent!</h3>
                         <p><strong>Client:</strong> ${contractData.clientName}</p>
-                        <p><strong>Submission ID:</strong> ${result.submissionId}</p>
-                        <p><strong>File:</strong> ${result.fileName}</p>
-                        <p style="margin-top: 15px;">📧 Signing emails sent to all parties!</p>
+                        <p><strong>Email sent to:</strong> ${contractData.signerEmail}</p>
+                        <p style="margin-top:10px;">Check DocuSeal for the submission.</p>
                     `);
                 } else {
-                    throw new Error(result.error || 'Failed to generate contract');
+                    throw new Error(result.error || 'Failed to generate');
                 }
-            } catch (error) {
-                showMessage('generateMessage', 'error', `❌ ${error.message}`);
+            } catch (e) {
+                showMessage('generateMessage', 'error', '❌ ' + e.message);
             } finally {
-                generateBtn.disabled = false;
-                spinner.classList.remove('active');
+                btn.disabled = false;
+                document.getElementById('generateSpinner').classList.remove('active');
             }
         });
 
-        // Helper functions
         function showMessage(id, type, content) {
-            const message = document.getElementById(id);
-            message.className = `message ${type} active`;
-            message.innerHTML = typeof content === 'string' ? `<p>${content}</p>` : content;
+            const el = document.getElementById(id);
+            el.className = `message ${type} active`;
+            el.innerHTML = `<p>${content}</p>`;
         }
-
         function hideMessage(id) {
-            const message = document.getElementById(id);
-            message.classList.remove('active');
+            document.getElementById(id).classList.remove('active');
         }
     </script>
 </body>
