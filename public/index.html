@@ -3,283 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeGo! Oakland - AI Contract Generator</title>
+    <title>WeGo! Oakland — Contract Generator</title>
     <style>
+        :root {
+            --pink: #e9007f;
+            --cream: #faf7f2;
+            --black: #000000;
+            --yellow: #fce81d;
+            --teal: #e2f5f4;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--black);
             min-height: 100vh;
-            padding: 40px 20px;
         }
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 900px;
-            width: 100%;
+        .header {
+            background: var(--black);
+            padding: 24px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #222;
+        }
+        .logo {
+            color: var(--yellow);
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        .logo span { color: var(--pink); }
+        .header-sub {
+            color: #555;
+            font-size: 14px;
+        }
+        .main {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 40px 20px 80px;
         }
-        .header { text-align: center; margin-bottom: 40px; }
-        .header h1 { color: #333; font-size: 28px; margin-bottom: 10px; }
-        .ai-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; padding: 6px 16px; border-radius: 20px;
-            font-size: 14px; font-weight: 600; margin-top: 10px;
+        .card {
+            background: var(--cream);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .step-title {
-            font-size: 20px; color: #333; margin-bottom: 15px; font-weight: 700;
+        .card-top {
+            background: var(--pink);
+            padding: 32px 40px;
         }
-        .step-number {
-            display: inline-block; background: #667eea; color: white;
-            width: 30px; height: 30px; border-radius: 50%;
-            text-align: center; line-height: 30px; font-weight: 700; margin-right: 10px;
+        .card-top h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 6px;
         }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 14px; }
+        .card-top p {
+            color: rgba(255,255,255,0.8);
+            font-size: 15px;
+        }
+        .card-body { padding: 40px; }
+        .form-group { margin-bottom: 24px; }
+        label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
         textarea {
-            width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 8px;
-            font-size: 15px; font-family: 'Courier New', monospace; min-height: 280px;
-            resize: vertical; transition: all 0.3s;
-        }
-        textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-        input {
-            width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0;
-            border-radius: 8px; font-size: 15px; transition: all 0.3s;
-        }
-        input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-        .button {
-            padding: 16px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; border: none; border-radius: 8px; font-size: 18px;
-            font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
             width: 100%;
+            padding: 16px;
+            border: 2px solid #e8e4de;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            background: white;
+            min-height: 260px;
+            resize: vertical;
+            transition: border-color 0.2s;
+            color: #333;
         }
-        .button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
-        .button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-        .extracted-data {
-            display: none; background: #f8f9fa; border: 2px solid #667eea;
-            border-radius: 12px; padding: 30px; margin-top: 20px;
+        textarea:focus {
+            outline: none;
+            border-color: var(--pink);
         }
-        .extracted-data.active { display: block; }
-        .extracted-data h3 { color: #667eea; margin-bottom: 20px; font-size: 20px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .field-box { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0; }
-        .field-label { font-size: 12px; color: #666; font-weight: 600; margin-bottom: 5px; text-transform: uppercase; }
-        .spinner { display: none; text-align: center; margin: 20px 0; }
+        input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid #e8e4de;
+            border-radius: 10px;
+            font-size: 15px;
+            background: white;
+            transition: border-color 0.2s;
+            color: #333;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--pink);
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-pink {
+            background: var(--pink);
+            color: white;
+        }
+        .btn-black {
+            background: var(--black);
+            color: var(--yellow);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .btn:disabled {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .review-panel {
+            display: none;
+            margin-top: 32px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid var(--teal);
+            overflow: hidden;
+        }
+        .review-panel.active { display: block; }
+        .review-header {
+            background: var(--teal);
+            padding: 16px 24px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #333;
+        }
+        .review-body { padding: 24px; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .field-box {
+            background: var(--cream);
+            padding: 14px 16px;
+            border-radius: 8px;
+        }
+        .field-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        .spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 14px;
+        }
         .spinner.active { display: block; }
-        .spinner-icon {
-            border: 4px solid #f3f3f3; border-top: 4px solid #667eea;
-            border-radius: 50%; width: 40px; height: 40px;
-            animation: spin 1s linear infinite; margin: 0 auto;
+        .spinner::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ddd;
+            border-top-color: var(--pink);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .message { padding: 16px; border-radius: 8px; margin-top: 20px; display: none; }
-        .message.active { display: block; }
-        .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .message h3 { margin-bottom: 10px; }
-        .help-text { font-size: 13px; color: #888; margin-top: 6px; font-style: italic; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } .container { padding: 20px; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .msg {
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 16px;
+            display: none;
+        }
+        .msg.active { display: block; }
+        .msg.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .msg.error {
+            background: #fff0f5;
+            color: #c00050;
+            border: 1px solid #ffb3d1;
+        }
+        .success-card {
+            display: none;
+            text-align: center;
+            padding: 48px 40px;
+        }
+        .success-card.active { display: block; }
+        .success-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .success-card p {
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .contract-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 28px;
+            background: var(--black);
+            color: var(--yellow);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        @media (max-width: 640px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .card-top { padding: 24px; }
+            .card-body { padding: 24px; }
+            .header { padding: 16px 20px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>WeGo! Oakland Contract Generator</h1>
-            <div class="ai-badge">✨ AI-Powered</div>
-        </div>
+    <div class="header">
+        <div class="logo">WeGo<span>!</span> Oakland</div>
+        <div class="header-sub">Contract Generator</div>
+    </div>
 
-        <!-- Step 1: Paste Proposal -->
-        <div class="form-group">
-            <div class="step-title">
-                <span class="step-number">1</span>
-                Paste Your Proposal
+    <div class="main">
+        <div class="card">
+            <div class="card-top">
+                <h1>New Service Agreement</h1>
+                <p>Paste your proposal and AI will extract the details automatically</p>
             </div>
-            <textarea id="proposalText" placeholder="Paste your entire proposal, email, or project details here...
+            <div class="card-body">
+                <!-- Step 1: Paste Proposal -->
+                <div id="step1">
+                    <div class="form-group">
+                        <label>Paste Proposal or Project Details</label>
+                        <textarea id="proposalText" placeholder="Paste your proposal, email, or project notes here...
 
 Example:
-- Client: SF African American Chamber of Commerce
-- Email: helena@sfaacc.org
-- Project dates: 2/23/2026 to 5/10/2026
-- Total fee: $9,000
-- 50% deposit ($4,500) due upon signing
-- 50% balance ($4,500) due at launch
-- Services: Website redesign + member management platform
-- Includes: 20-page redesign, member directory, event calendar..."></textarea>
-            <div class="help-text">Include client name, email, dates, fees, and services description</div>
-        </div>
+Client: SF African American Chamber of Commerce
+Email: helena@sfaacc.org
+Dates: Feb 23, 2026 – May 10, 2026
+Fee: $9,000 total
+• $4,500 deposit upon signing
+• $4,500 balance at launch
 
-        <button class="button" id="parseBtn">🔍 Extract Contract Details with AI</button>
+Services: Complete website redesign + member management platform
+Includes: 20-page site, member directory, event calendar, payment processing..."></textarea>
+                    </div>
+                    <button class="btn btn-pink" id="parseBtn">Extract Details with AI →</button>
+                    <div class="spinner" id="parseSpinner">Analyzing proposal...</div>
+                    <div class="msg" id="parseMsg"></div>
+                </div>
 
-        <div class="spinner" id="parseSpinner">
-            <div class="spinner-icon"></div>
-            <p style="margin-top:10px;color:#666;">AI is parsing your proposal...</p>
-        </div>
-        <div class="message" id="parseMessage"></div>
+                <!-- Step 2: Review & Send -->
+                <div class="review-panel" id="reviewPanel">
+                    <div class="review-header">✅ Review Extracted Details</div>
+                    <div class="review-body">
+                        <div class="grid-2">
+                            <div class="field-box">
+                                <div class="field-label">Client Name</div>
+                                <input type="text" id="f_clientName">
+                            </div>
+                            <div class="field-box">
+                                <div class="field-label">Client Email</div>
+                                <input type="email" id="f_signerEmail">
+                            </div>
+                            <div class="field-box">
+                                <div class="field-label">Effective Date</div>
+                                <input type="text" id="f_effectiveDate" placeholder="MM/DD/YYYY">
+                            </div>
+                            <div class="field-box">
+                                <div class="field-label">End / Launch Date</div>
+                                <input type="text" id="f_termEndDate" placeholder="MM/DD/YYYY">
+                            </div>
+                            <div class="field-box">
+                                <div class="field-label">Payment 1</div>
+                                <input type="text" id="f_payment1">
+                            </div>
+                            <div class="field-box">
+                                <div class="field-label">Payment 2</div>
+                                <input type="text" id="f_payment2">
+                            </div>
+                        </div>
+                        <div class="field-box" style="margin-bottom:16px;">
+                            <div class="field-label">Services Title</div>
+                            <input type="text" id="f_servicesTitle">
+                        </div>
+                        <div class="field-box" style="margin-bottom:16px;">
+                            <div class="field-label">Services Description</div>
+                            <textarea id="f_servicesDescription" style="min-height:80px;"></textarea>
+                        </div>
+                        <div class="field-box" style="margin-bottom:24px;">
+                            <div class="field-label">Includes (one per line)</div>
+                            <textarea id="f_includesList" style="min-height:120px;"></textarea>
+                        </div>
+                        <button class="btn btn-black" id="sendBtn">Send Contract to Client →</button>
+                        <div class="spinner" id="sendSpinner">Creating contract and sending email...</div>
+                        <div class="msg" id="sendMsg"></div>
+                    </div>
+                </div>
 
-        <!-- Step 2: Review & Send -->
-        <div class="extracted-data" id="extractedData">
-            <h3>✅ Review Extracted Details</h3>
-            <p style="color:#666;margin-bottom:20px;">Make any corrections, then click Send.</p>
-
-            <div class="grid-2">
-                <div class="field-box">
-                    <div class="field-label">Client Name</div>
-                    <input type="text" id="f_clientName">
-                </div>
-                <div class="field-box">
-                    <div class="field-label">Client Email</div>
-                    <input type="email" id="f_signerEmail">
-                </div>
-                <div class="field-box">
-                    <div class="field-label">Effective Date</div>
-                    <input type="text" id="f_effectiveDate" placeholder="MM/DD/YYYY">
-                </div>
-                <div class="field-box">
-                    <div class="field-label">End / Launch Date</div>
-                    <input type="text" id="f_termEndDate" placeholder="MM/DD/YYYY">
-                </div>
-                <div class="field-box">
-                    <div class="field-label">Payment 1</div>
-                    <input type="text" id="f_payment1" placeholder="$4,500 - 50% deposit upon signing">
-                </div>
-                <div class="field-box">
-                    <div class="field-label">Payment 2</div>
-                    <input type="text" id="f_payment2" placeholder="$4,500 - 50% balance at launch">
+                <!-- Success State -->
+                <div class="success-card" id="successCard">
+                    <div style="font-size:52px;margin-bottom:16px;">🎉</div>
+                    <h2>Contract Sent!</h2>
+                    <p id="successClient"></p>
+                    <p id="successEmail" style="color:#999; font-size:14px;"></p>
+                    <a id="successLink" class="contract-link" href="#" target="_blank">View Contract →</a>
+                    <br><br>
+                    <button class="btn btn-pink" onclick="resetForm()" style="max-width:200px;margin:0 auto;">
+                        New Contract
+                    </button>
                 </div>
             </div>
-
-            <div class="field-box" style="margin-bottom:20px;">
-                <div class="field-label">Services Title</div>
-                <input type="text" id="f_servicesTitle" placeholder="Website Design & Development">
-            </div>
-
-            <div class="field-box" style="margin-bottom:20px;">
-                <div class="field-label">Services Description</div>
-                <textarea id="f_servicesDescription" style="min-height:100px;"></textarea>
-            </div>
-
-            <div class="field-box" style="margin-bottom:20px;">
-                <div class="field-label">Includes (bullet list)</div>
-                <textarea id="f_includesList" style="min-height:150px;"></textarea>
-            </div>
-
-            <button class="button" id="generateBtn" style="margin-top:20px;">
-                📄 Generate & Send Contract
-            </button>
-
-            <div class="spinner" id="generateSpinner">
-                <div class="spinner-icon"></div>
-                <p style="margin-top:10px;color:#666;">Sending contract via DocuSeal...</p>
-            </div>
-            <div class="message" id="generateMessage"></div>
         </div>
     </div>
 
     <script>
-        let extractedInfo = null;
+        let extracted = null;
 
         document.getElementById('parseBtn').addEventListener('click', async () => {
-            const proposalText = document.getElementById('proposalText').value;
-            if (!proposalText || proposalText.trim().length < 50) {
-                showMessage('parseMessage', 'error', 'Please paste a valid proposal (at least 50 characters)');
-                return;
-            }
+            const text = document.getElementById('proposalText').value.trim();
+            if (text.length < 50) return showMsg('parseMsg', 'error', 'Please paste a valid proposal.');
 
-            const btn = document.getElementById('parseBtn');
-            btn.disabled = true;
-            document.getElementById('parseSpinner').classList.add('active');
-            hideMessage('parseMessage');
+            setLoading('parseBtn', 'parseSpinner', true);
+            hideMsg('parseMsg');
 
             try {
-                const response = await fetch('/api/parse-proposal', {
+                const res = await fetch('/api/parse-proposal', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ proposalText })
+                    body: JSON.stringify({ proposalText: text })
                 });
-                const result = await response.json();
-                if (result.success) {
-                    extractedInfo = result.data;
-                    populateFields(result.data);
-                    document.getElementById('extractedData').classList.add('active');
-                    showMessage('parseMessage', 'success', '✅ Done! Review the details below and click Send.');
-                } else {
-                    throw new Error(result.error || 'Failed to parse');
-                }
+                const result = await res.json();
+                if (!result.success) throw new Error(result.error);
+
+                extracted = result.data;
+                fillFields(extracted);
+                document.getElementById('reviewPanel').classList.add('active');
+                showMsg('parseMsg', 'success', '✅ Details extracted! Review below and click Send.');
             } catch (e) {
-                showMessage('parseMessage', 'error', '❌ ' + e.message);
+                showMsg('parseMsg', 'error', '❌ ' + e.message);
             } finally {
-                btn.disabled = false;
-                document.getElementById('parseSpinner').classList.remove('active');
+                setLoading('parseBtn', 'parseSpinner', false);
             }
         });
 
-        function populateFields(data) {
-            document.getElementById('f_clientName').value = data.clientName || '';
-            document.getElementById('f_signerEmail').value = data.signerEmail || '';
-            document.getElementById('f_effectiveDate').value = data.effectiveDate || '';
-            document.getElementById('f_termEndDate').value = data.termEndDate || '';
-            document.getElementById('f_payment1').value = data.payment1 || '';
-            document.getElementById('f_payment2').value = data.payment2 || '';
-            document.getElementById('f_servicesTitle').value = data.servicesTitle || '';
-            document.getElementById('f_servicesDescription').value = data.servicesDescription || '';
-            document.getElementById('f_includesList').value = data.includesList || '';
-        }
-
-        document.getElementById('generateBtn').addEventListener('click', async () => {
-            const contractData = {
-                clientName: document.getElementById('f_clientName').value,
-                signerEmail: document.getElementById('f_signerEmail').value,
-                effectiveDate: document.getElementById('f_effectiveDate').value,
-                termEndDate: document.getElementById('f_termEndDate').value,
-                payment1: document.getElementById('f_payment1').value,
-                payment2: document.getElementById('f_payment2').value,
-                launchDate: document.getElementById('f_termEndDate').value,
-                servicesTitle: document.getElementById('f_servicesTitle').value,
-                servicesDescription: document.getElementById('f_servicesDescription').value,
-                includesList: document.getElementById('f_includesList').value
+        document.getElementById('sendBtn').addEventListener('click', async () => {
+            const data = {
+                clientName: val('f_clientName'),
+                signerEmail: val('f_signerEmail'),
+                signerEmail2: extracted?.signerEmail2 || '',
+                effectiveDate: val('f_effectiveDate'),
+                termEndDate: val('f_termEndDate'),
+                payment1: val('f_payment1'),
+                payment2: val('f_payment2'),
+                servicesTitle: val('f_servicesTitle'),
+                servicesDescription: val('f_servicesDescription'),
+                includesList: val('f_includesList')
             };
 
-            const btn = document.getElementById('generateBtn');
-            btn.disabled = true;
-            document.getElementById('generateSpinner').classList.add('active');
-            hideMessage('generateMessage');
+            if (!data.clientName || !data.signerEmail) {
+                return showMsg('sendMsg', 'error', 'Client name and email are required.');
+            }
+
+            setLoading('sendBtn', 'sendSpinner', true);
+            hideMsg('sendMsg');
 
             try {
-                const response = await fetch('/api/generate-contract', {
+                const res = await fetch('/api/generate-contract', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(contractData)
+                    body: JSON.stringify(data)
                 });
-                const result = await response.json();
-                if (result.success) {
-                    showMessage('generateMessage', 'success', `
-                        <h3>✅ Contract Sent!</h3>
-                        <p><strong>Client:</strong> ${contractData.clientName}</p>
-                        <p><strong>Email sent to:</strong> ${contractData.signerEmail}</p>
-                        <p style="margin-top:10px;">Check DocuSeal for the submission.</p>
-                    `);
-                } else {
-                    throw new Error(result.error || 'Failed to generate');
-                }
+                const result = await res.json();
+                if (!result.success) throw new Error(result.error);
+
+                // Show success
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('reviewPanel').style.display = 'none';
+                document.getElementById('successCard').classList.add('active');
+                document.getElementById('successClient').textContent = `Agreement sent to ${data.clientName}`;
+                document.getElementById('successEmail').textContent = data.signerEmail;
+                document.getElementById('successLink').href = result.contractUrl;
+
             } catch (e) {
-                showMessage('generateMessage', 'error', '❌ ' + e.message);
+                showMsg('sendMsg', 'error', '❌ ' + e.message);
             } finally {
-                btn.disabled = false;
-                document.getElementById('generateSpinner').classList.remove('active');
+                setLoading('sendBtn', 'sendSpinner', false);
             }
         });
 
-        function showMessage(id, type, content) {
+        function fillFields(d) {
+            set('f_clientName', d.clientName);
+            set('f_signerEmail', d.signerEmail);
+            set('f_effectiveDate', d.effectiveDate);
+            set('f_termEndDate', d.termEndDate);
+            set('f_payment1', d.payment1);
+            set('f_payment2', d.payment2);
+            set('f_servicesTitle', d.servicesTitle);
+            set('f_servicesDescription', d.servicesDescription);
+            set('f_includesList', d.includesList);
+        }
+
+        function resetForm() {
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('reviewPanel').classList.remove('active');
+            document.getElementById('successCard').classList.remove('active');
+            document.getElementById('proposalText').value = '';
+            extracted = null;
+        }
+
+        function val(id) { return document.getElementById(id).value.trim(); }
+        function set(id, v) { document.getElementById(id).value = v || ''; }
+        function setLoading(btnId, spinnerId, loading) {
+            document.getElementById(btnId).disabled = loading;
+            document.getElementById(spinnerId).classList.toggle('active', loading);
+        }
+        function showMsg(id, type, text) {
             const el = document.getElementById(id);
-            el.className = `message ${type} active`;
-            el.innerHTML = `<p>${content}</p>`;
+            el.className = `msg ${type} active`;
+            el.textContent = text;
         }
-        function hideMessage(id) {
-            document.getElementById(id).classList.remove('active');
-        }
+        function hideMsg(id) { document.getElementById(id).classList.remove('active'); }
     </script>
 </body>
 </html>
