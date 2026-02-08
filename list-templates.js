@@ -8,29 +8,17 @@ async function listTemplates() {
   console.log('Fetching your DocuSeal templates...\n');
 
   try {
-    const templates = await docuseal.listTemplates();
+    const response = await docuseal.listTemplates();
 
-    if (!templates || templates.length === 0) {
-      console.log('No templates found.');
-      return;
-    }
+    // Handle different response formats
+    const templates = response.data || response;
 
-    templates.forEach(t => {
-      console.log('─────────────────────────────────');
-      console.log(`Name: ${t.name}`);
-      console.log(`ID:   ${t.id}`);
-      console.log(`Fields:`);
-      if (t.fields && t.fields.length > 0) {
-        t.fields.forEach(f => {
-          console.log(`  - ${f.name} (${f.type})`);
-        });
-      }
-    });
+    console.log('Raw response type:', typeof response);
+    console.log('Raw response:', JSON.stringify(response, null, 2));
 
-    console.log('─────────────────────────────────');
-    console.log('\nCopy the ID of "Contract Template" - you need it!');
   } catch (error) {
     console.error('Error:', error.message);
+    console.error('Full error:', error);
   }
 }
 
