@@ -40,7 +40,7 @@ app.post('/api/parse-proposal', async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `You are an expert at extracting contract information from proposals. Extract the following and return as JSON:
+          content: `You are an expert at extracting contract information from proposals for web design/marketing service agreements. Extract the following and return as JSON:
 {
   "clientName": "Full client company/business name",
   "clientEntity": "Entity type (e.g. 'a limited liability company') or empty string",
@@ -49,13 +49,21 @@ app.post('/api/parse-proposal', async (req, res) => {
   "signerEmail2": "Second email if multiple signers, otherwise empty string",
   "effectiveDate": "Contract start date in MM/DD/YYYY format",
   "termEndDate": "Contract end date in MM/DD/YYYY format",
-  "payment1": "First payment as a string like '$4,500 — 50% deposit due upon signing'",
-  "payment2": "Second payment as a string like '$4,500 — 50% balance due at launch'",
+  "payment1": "First payment as a string like '$4,500 non-refundable deposit payable upon contract signing'",
+  "payment2": "Second payment as a string like '$4,500 due upon completion of website, prior to launch & ownership transfer, anticipated on MM/DD/YYYY'",
   "servicesTitle": "Main service title e.g. 'Website Design & Development'",
-  "servicesDescription": "1-2 sentence description of the overall project",
-  "includesList": "Everything included, one item per line starting with •"
+  "servicesDescription": "1-2 sentence description of the overall project goal",
+  "includesList": "Everything included, one item per line starting with •",
+  "whatNotIncluded": "List what's NOT included in the project, 1-2 sentences",
+  "projectStartDate": "Project start date in MM/DD/YYYY format",
+  "projectPhases": "Description of project phases (e.g. 'Copywriting Phase, Branding Phase, Design Phase, Build Phase')",
+  "customerResponsibilities": "Brief description of customer obligations for timely feedback and decisions",
+  "feedbackPolicy": "Feedback window policy (e.g. '48 hours to provide feedback; failure closes feedback round')",
+  "completionPolicy": "How completion is determined (e.g. 'After last feedback round with all feedback provided timely')",
+  "cancellationPolicy": "Deposit refund policy (e.g. '50% deposit is nonrefundable')",
+  "refundPolicy": "Refund terms (e.g. 'No refunds once project commenced; additional work beyond deposit will be invoiced')"
 }
-Format payments as clean readable strings. Make the includes list thorough and clear.`
+Format payments as clean readable strings. Extract Exhibit A details from proposal. If fields are missing, use reasonable defaults for web design contracts.`
         },
         { role: "user", content: proposalText }
       ],
@@ -82,7 +90,10 @@ app.post('/api/generate-contract', async (req, res) => {
       signerEmail, signerEmail2,
       effectiveDate, termEndDate,
       payment1, payment2,
-      servicesTitle, servicesDescription, includesList
+      servicesTitle, servicesDescription, includesList,
+      whatNotIncluded, projectStartDate, projectPhases,
+      customerResponsibilities, feedbackPolicy, completionPolicy,
+      cancellationPolicy, refundPolicy
     } = req.body;
 
     // Create unique contract ID
@@ -100,7 +111,15 @@ app.post('/api/generate-contract', async (req, res) => {
       launch_date: termEndDate,
       services_title: servicesTitle,
       services_description: servicesDescription,
-      includes_list: includesList
+      includes_list: includesList,
+      what_not_included: whatNotIncluded,
+      project_start_date: projectStartDate,
+      project_phases: projectPhases,
+      customer_responsibilities: customerResponsibilities,
+      feedback_policy: feedbackPolicy,
+      completion_policy: completionPolicy,
+      cancellation_policy: cancellationPolicy,
+      refund_policy: refundPolicy
     });
 
     const contractUrl = `${APP_URL}/contract/${contractId}`;
@@ -144,7 +163,7 @@ app.get('/api/contract/:id', (req, res) => {
 // ─── Sign Contract ────────────────────────────────────────────────────────────
 app.post('/api/contract/:id/sign', async (req, res) => {
   try {
-    const { signerName, signatureData } = req.body;
+    const { signerName, signatureData, initialsData } = req.body;
     const contract = db.getContract(req.params.id);
 
     if (!contract) {
@@ -154,7 +173,7 @@ app.post('/api/contract/:id/sign', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Already signed' });
     }
 
-    db.signContract(req.params.id, signatureData, signerName);
+    db.signContract(req.params.id, signatureData, signerName, JSON.stringify(initialsData || {}));
     console.log(`✅ Contract signed by ${signerName} for ${contract.client_name}`);
 
     // Send confirmation emails

@@ -378,7 +378,15 @@ Includes: 20-page site, member directory, event calendar, payment processing..."
                 payment2: val('f_payment2'),
                 servicesTitle: val('f_servicesTitle'),
                 servicesDescription: val('f_servicesDescription'),
-                includesList: val('f_includesList')
+                includesList: val('f_includesList'),
+                whatNotIncluded: extracted?.whatNotIncluded || '',
+                projectStartDate: extracted?.projectStartDate || '',
+                projectPhases: extracted?.projectPhases || '',
+                customerResponsibilities: extracted?.customerResponsibilities || '',
+                feedbackPolicy: extracted?.feedbackPolicy || '',
+                completionPolicy: extracted?.completionPolicy || '',
+                cancellationPolicy: extracted?.cancellationPolicy || '',
+                refundPolicy: extracted?.refundPolicy || ''
             };
 
             if (!data.clientName || !data.signerEmail) {
