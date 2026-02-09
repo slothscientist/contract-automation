@@ -17,6 +17,15 @@ db.exec(`
     services_title TEXT,
     services_description TEXT,
     includes_list TEXT,
+    what_not_included TEXT,
+    project_start_date TEXT,
+    project_phases TEXT,
+    customer_responsibilities TEXT,
+    feedback_policy TEXT,
+    completion_policy TEXT,
+    cancellation_policy TEXT,
+    refund_policy TEXT,
+    initials_data TEXT,
     status TEXT DEFAULT 'pending',
     signature_data TEXT,
     signer_name TEXT,
@@ -25,13 +34,41 @@ db.exec(`
   )
 `);
 
+// Migrate existing tables to add new columns
+const addColumnIfNotExists = (tableName, columnName, columnType) => {
+  try {
+    const columns = db.prepare(`PRAGMA table_info(${tableName})`).all();
+    const columnExists = columns.some(col => col.name === columnName);
+    if (!columnExists) {
+      db.exec(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${columnType}`);
+    }
+  } catch (e) {
+    // Column might already exist, ignore
+  }
+};
+
+// Add new Exhibit A columns if they don't exist
+addColumnIfNotExists('contracts', 'what_not_included', 'TEXT');
+addColumnIfNotExists('contracts', 'project_start_date', 'TEXT');
+addColumnIfNotExists('contracts', 'project_phases', 'TEXT');
+addColumnIfNotExists('contracts', 'customer_responsibilities', 'TEXT');
+addColumnIfNotExists('contracts', 'feedback_policy', 'TEXT');
+addColumnIfNotExists('contracts', 'completion_policy', 'TEXT');
+addColumnIfNotExists('contracts', 'cancellation_policy', 'TEXT');
+addColumnIfNotExists('contracts', 'refund_policy', 'TEXT');
+addColumnIfNotExists('contracts', 'initials_data', 'TEXT');
+
 module.exports = {
   createContract: (contract) => {
     const stmt = db.prepare(`
       INSERT INTO contracts (id, client_name, client_email, effective_date, term_end_date,
-        payment_1, payment_2, launch_date, services_title, services_description, includes_list)
+        payment_1, payment_2, launch_date, services_title, services_description, includes_list,
+        what_not_included, project_start_date, project_phases, customer_responsibilities,
+        feedback_policy, completion_policy, cancellation_policy, refund_policy)
       VALUES (@id, @client_name, @client_email, @effective_date, @term_end_date,
-        @payment_1, @payment_2, @launch_date, @services_title, @services_description, @includes_list)
+        @payment_1, @payment_2, @launch_date, @services_title, @services_description, @includes_list,
+        @what_not_included, @project_start_date, @project_phases, @customer_responsibilities,
+        @feedback_policy, @completion_policy, @cancellation_policy, @refund_policy)
     `);
     return stmt.run(contract);
   },
@@ -40,12 +77,13 @@ module.exports = {
     return db.prepare('SELECT * FROM contracts WHERE id = ?').get(id);
   },
 
-  signContract: (id, signatureData, signerName) => {
+  signContract: (id, signatureData, signerName, initialsData) => {
     const stmt = db.prepare(`
-      UPDATE contracts SET status = 'signed', signature_data = ?, signer_name = ?, signed_at = datetime('now')
+      UPDATE contracts SET status = 'signed', signature_data = ?, signer_name = ?,
+        initials_data = ?, signed_at = datetime('now')
       WHERE id = ?
     `);
-    return stmt.run(signatureData, signerName, id);
+    return stmt.run(signatureData, signerName, initialsData, id);
   },
 
   getAllContracts: () => {
