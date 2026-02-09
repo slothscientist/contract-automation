@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Agreement — WeGo! Oakland</title>
+    <title>Web Design Service Agreement — WeGo! Oakland</title>
     <style>
         :root {
             --pink: #e9007f;
@@ -19,7 +19,7 @@
             font-family: 'Georgia', serif;
             background: var(--cream);
             color: var(--black);
-            min-height: 100vh;
+            line-height: 1.6;
         }
 
         .header-bar {
@@ -38,9 +38,7 @@
             font-family: 'Arial Black', sans-serif;
         }
 
-        .header-bar .logo span {
-            color: var(--pink);
-        }
+        .header-bar .logo span { color: var(--pink); }
 
         .status-badge {
             padding: 6px 16px;
@@ -54,174 +52,125 @@
         .status-signed { background: #00c853; color: white; }
 
         .contract-wrapper {
-            max-width: 860px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 40px 20px 80px;
         }
 
         .contract-card {
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 40px rgba(0,0,0,0.08);
-            overflow: hidden;
+            padding: 60px 70px;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
         }
 
-        .contract-top {
-            background: var(--black);
-            padding: 40px 50px;
-            color: white;
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 700;
         }
 
-        .contract-top h1 {
-            font-size: 28px;
-            font-family: 'Arial Black', sans-serif;
-            color: var(--yellow);
-            margin-bottom: 8px;
-        }
-
-        .contract-top p {
-            color: #aaa;
-            font-size: 14px;
-            font-family: sans-serif;
-        }
-
-        .contract-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 0;
-            border-bottom: 2px solid var(--cream);
-        }
-
-        .meta-item {
-            padding: 20px 30px;
-            border-right: 1px solid var(--cream);
-        }
-
-        .meta-item:last-child { border-right: none; }
-
-        .meta-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            font-family: sans-serif;
-            margin-bottom: 4px;
-        }
-
-        .meta-value {
+        .whereas {
             font-size: 15px;
-            font-weight: 600;
-            color: var(--black);
-            font-family: sans-serif;
+            margin-bottom: 20px;
+            text-align: justify;
         }
 
-        .contract-body {
-            padding: 50px;
+        .now-therefore {
+            font-size: 15px;
+            margin: 30px 0;
+            font-weight: 600;
         }
 
         .section {
-            margin-bottom: 36px;
-        }
-
-        .section-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--pink);
-            font-family: sans-serif;
-            font-weight: 700;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--teal);
-        }
-
-        .section p {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .payment-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 12px;
-        }
-
-        .payment-item {
-            background: var(--cream);
-            border-radius: 10px;
-            padding: 18px 20px;
-            border-left: 4px solid var(--pink);
-        }
-
-        .payment-amount {
-            font-size: 22px;
-            font-weight: 900;
-            font-family: sans-serif;
-            color: var(--black);
-        }
-
-        .payment-desc {
-            font-size: 13px;
-            color: #666;
-            font-family: sans-serif;
-            margin-top: 4px;
-        }
-
-        .includes-list {
-            margin-top: 12px;
-            list-style: none;
-        }
-
-        .includes-list li {
-            padding: 8px 0;
-            font-size: 15px;
-            color: #333;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .includes-list li::before {
-            content: '→';
-            color: var(--pink);
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .legal-text {
-            font-size: 13px;
-            line-height: 1.9;
-            color: #555;
-        }
-
-        .legal-section {
-            margin-bottom: 20px;
-        }
-
-        .legal-section strong {
-            color: var(--black);
-        }
-
-        .signing-area {
-            background: var(--cream);
-            border-radius: 0 0 16px 16px;
-            padding: 50px;
-            border-top: 2px solid #eee;
-        }
-
-        .signing-area h2 {
-            font-size: 22px;
-            font-family: sans-serif;
-            margin-bottom: 8px;
-        }
-
-        .signing-area p {
-            color: #666;
-            font-family: sans-serif;
-            font-size: 14px;
             margin-bottom: 24px;
+        }
+
+        .section-number {
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .subsection {
+            margin-left: 30px;
+            margin-top: 12px;
+        }
+
+        .signature-block {
+            margin-top: 50px;
+            page-break-inside: avoid;
+        }
+
+        .sig-line {
+            border-top: 2px solid var(--black);
+            width: 300px;
+            margin: 40px 0 8px 0;
+        }
+
+        .sig-label {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .exhibit-header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 50px 0 30px;
+            text-decoration: underline;
+        }
+
+        .exhibit-section {
+            margin-bottom: 30px;
+        }
+
+        .exhibit-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .initials-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 0;
+            padding: 10px;
+            background: var(--cream);
+            border-radius: 4px;
+        }
+
+        .initials-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .initials-input {
+            border: 2px solid var(--black);
+            width: 60px;
+            height: 35px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 4px;
+            background: white;
+        }
+
+        ul {
+            margin: 12px 0 12px 40px;
+        }
+
+        .final-signature-area {
+            margin-top: 60px;
+            padding: 40px;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .final-signature-area h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
         }
 
         .name-field {
@@ -230,64 +179,35 @@
 
         .name-field label {
             display: block;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            font-family: sans-serif;
+            font-weight: 600;
             margin-bottom: 8px;
         }
 
         .name-field input {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 16px;
-            font-family: sans-serif;
-            transition: border-color 0.2s;
-        }
-
-        .name-field input:focus {
-            outline: none;
-            border-color: var(--pink);
         }
 
         .signature-pad-wrapper {
-            border: 2px dashed #ddd;
-            border-radius: 12px;
+            border: 2px dashed #999;
+            border-radius: 8px;
             background: white;
             margin-bottom: 20px;
-            position: relative;
-            transition: border-color 0.2s;
-        }
-
-        .signature-pad-wrapper:hover {
-            border-color: var(--pink);
-        }
-
-        .signature-pad-wrapper label {
-            position: absolute;
-            top: 12px;
-            left: 16px;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #bbb;
-            font-family: sans-serif;
         }
 
         #signaturePad {
             width: 100%;
-            height: 160px;
+            height: 150px;
             cursor: crosshair;
-            border-radius: 10px;
         }
 
         .pad-actions {
             text-align: right;
-            padding: 8px 12px;
-            border-top: 1px solid #f0f0f0;
+            padding: 8px;
+            border-top: 1px solid #eee;
         }
 
         .clear-btn {
@@ -296,7 +216,6 @@
             color: #999;
             font-size: 13px;
             cursor: pointer;
-            font-family: sans-serif;
             padding: 4px 8px;
         }
 
@@ -305,11 +224,8 @@
         .agree-check {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 24px;
-            padding: 16px;
-            background: white;
-            border-radius: 8px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .agree-check input[type="checkbox"] {
@@ -317,67 +233,44 @@
             height: 18px;
             margin-top: 2px;
             accent-color: var(--pink);
-            flex-shrink: 0;
-        }
-
-        .agree-check label {
-            font-size: 14px;
-            color: #555;
-            font-family: sans-serif;
-            line-height: 1.6;
         }
 
         .sign-btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: var(--pink);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 6px;
             font-size: 18px;
             font-weight: 700;
-            font-family: sans-serif;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            letter-spacing: 0.5px;
+            transition: transform 0.2s;
         }
 
-        .sign-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(233,0,127,0.3);
-        }
-
+        .sign-btn:hover { transform: translateY(-2px); }
         .sign-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
-        .loading { display: none; text-align: center; padding: 20px; font-family: sans-serif; color: #666; }
+        .loading { display: none; text-align: center; padding: 20px; }
         .loading.active { display: block; }
 
         .error-msg {
             background: #fff0f5;
             border: 1px solid #ffb3d1;
             color: #c00050;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-family: sans-serif;
-            font-size: 14px;
+            padding: 12px;
+            border-radius: 4px;
             margin-top: 12px;
             display: none;
         }
         .error-msg.active { display: block; }
 
-        @media (max-width: 768px) {
-            .contract-top { padding: 30px; }
-            .contract-body { padding: 30px; }
-            .signing-area { padding: 30px; }
-            .contract-meta { grid-template-columns: 1fr; }
-            .meta-item { border-right: none; border-bottom: 1px solid var(--cream); }
-            .payment-grid { grid-template-columns: 1fr; }
-            .header-bar { padding: 16px 20px; }
+        @media print {
+            .header-bar, .final-signature-area { display: none; }
         }
     </style>
 </head>
@@ -388,78 +281,172 @@
     </div>
 
     <div class="contract-wrapper">
-        <div id="loadingState" style="text-align:center;padding:80px 20px;font-family:sans-serif;color:#999;">
+        <div id="loadingState" style="text-align:center;padding:80px 20px;color:#999;">
             Loading contract...
         </div>
 
         <div id="contractCard" class="contract-card" style="display:none;">
-            <div class="contract-top">
-                <h1>Web Design & Marketing<br>Service Agreement</h1>
-                <p id="contractSubtitle">Service Agreement</p>
+            <h1>Web Design Service Agreement</h1>
+
+            <!-- WHEREAS Clauses -->
+            <div class="whereas">
+                <p style="margin-bottom:12px;">This Web Design Services Agreement (this "Agreement"), dated as of <strong id="effectiveDate"></strong> (the "Effective Date"), is by and between WeGo! Oakland, located at 1140 Everett Avenue, Oakland, CA 94602 ("Service Provider") and <strong id="clientName"></strong> with offices at <span id="clientAddress">________________________</span> ("Customer" and together with Service Provider, the "Parties", and each a "Party").</p>
             </div>
 
-            <div class="contract-meta">
-                <div class="meta-item">
-                    <div class="meta-label">Client</div>
-                    <div class="meta-value" id="metaClient">—</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-label">Effective Date</div>
-                    <div class="meta-value" id="metaDate">—</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-label">Project End</div>
-                    <div class="meta-value" id="metaEnd">—</div>
-                </div>
+            <div class="whereas">
+                <strong>WHEREAS</strong> Service Provider has the capability and capacity to provide certain web design services; and
             </div>
 
-            <div class="contract-body">
-                <!-- Intro -->
-                <div class="section">
-                    <p id="introText"></p>
+            <div class="whereas">
+                <strong>WHEREAS</strong> Customer desires to retain Service Provider to provide the said services, and Service Provider is willing to perform such services under the terms and conditions hereinafter set forth;
+            </div>
+
+            <div class="now-therefore">
+                NOW, THEREFORE, in consideration of the mutual covenants and agreements hereinafter set forth and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, Service Provider and Customer agree as follows:
+            </div>
+
+            <!-- Legal Sections 1-19 -->
+            <div id="legalSections"></div>
+
+            <!-- Signature Blocks for Both Parties -->
+            <div class="signature-block">
+                <p style="text-align:center; font-weight:700; margin-bottom:40px;">[signature page follows]</p>
+                <p style="text-align:center; font-weight:700; margin-bottom:30px;">IN WITNESS WHEREOF, the parties hereto have caused this Agreement to be duly executed as of the Effective Date.</p>
+
+                <div style="margin-top:50px;">
+                    <p style="font-weight:700; margin-bottom:20px;">CUSTOMER:</p>
+                    <div class="sig-line"></div>
+                    <p class="sig-label">By: <span id="sigCustomerName">_____________________</span></p>
+                    <p class="sig-label" style="margin-top:8px;">Name: <span id="sigCustomerFullName"></span></p>
                 </div>
 
-                <!-- Payment -->
-                <div class="section">
-                    <div class="section-title">Fee Schedule</div>
-                    <div class="payment-grid">
-                        <div class="payment-item">
-                            <div class="payment-amount" id="pay1Amount"></div>
-                            <div class="payment-desc" id="pay1Desc"></div>
-                        </div>
-                        <div class="payment-item">
-                            <div class="payment-amount" id="pay2Amount"></div>
-                            <div class="payment-desc" id="pay2Desc"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Services -->
-                <div class="section">
-                    <div class="section-title" id="servicesTitle">Services</div>
-                    <p id="servicesDesc"></p>
-                    <ul class="includes-list" id="includesList"></ul>
-                </div>
-
-                <!-- Legal Sections -->
-                <div class="section">
-                    <div class="section-title">Terms & Conditions</div>
-                    <div class="legal-text" id="legalText"></div>
+                <div style="margin-top:60px;">
+                    <p style="font-weight:700; margin-bottom:20px;">SERVICE PROVIDER:</p>
+                    <div class="sig-line"></div>
+                    <p class="sig-label">By: _____________________</p>
+                    <p class="sig-label" style="margin-top:8px;">Name: Salaams J. deRosa</p>
+                    <p class="sig-label" style="margin-top:4px;">WeGo! Oakland</p>
                 </div>
             </div>
 
-            <!-- Signing Area -->
-            <div class="signing-area" id="signingArea">
+            <!-- EXHIBIT A -->
+            <div class="exhibit-header">EXHIBIT A<br>STATEMENT OF WORK</div>
+
+            <div class="exhibit-section">
+                <p><strong>Customer:</strong> <span id="exCustomer"></span></p>
+                <p><strong>Service Provider:</strong> WeGo! Oakland</p>
+                <p><strong>Service Provider Business Hours:</strong> Business hours are Monday through Friday, 10 a.m.-5 p.m. PST or PDT, as applicable ("Business Hours")</p>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Fee Schedule and Payment Details</div>
+                <p>A non-refundable deposit amounting to 50% of the total project fee is required to reserve the design period. Please note, the design period is not reserved until payment is made. Service Provider will provide an invoice to Customer upon contract signing, and the initial payment is due immediately to reserve the design period.</p>
+                <p style="margin-top:12px;">The balance of the project fee, constituting the remaining 50%, will be invoiced to the Customer prior to the ownership transfer of the hosted account from the Service Provider to Customer. This final payment must be made for the website to be launched and website ownership to be transferred to the Customer.</p>
+                <p style="margin-top:12px;">Customer agrees to pay Service Provider on the following payment schedule:</p>
+                <ul style="margin-top:8px;">
+                    <li id="payment1"></li>
+                    <li id="payment2"></li>
+                </ul>
+                <p style="margin-top:12px;">Payment can be made via Zelle or Venmo or other electronic payment processor as agreed to by both parties. Service Provider will invoice the Customer on the payment schedule listed above.</p>
+                <p style="margin-top:8px;"><strong>Venmo:</strong> @salaamssalaams</p>
+                <p><strong>Zelle:</strong> salaams@wegooakland.com</p>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title" id="servicesTitle">Services to be Provided</div>
+                <p id="servicesDescription"></p>
+                <p style="margin-top:12px; font-weight:600;">Includes:</p>
+                <ul id="includesList"></ul>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial1" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">What's Not Included</div>
+                <p id="whatNotIncluded"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial2" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Project Timeline</div>
+                <p>The project will run from <strong id="projectStart"></strong> to <strong id="projectEnd"></strong>. The anticipated completion date may be adjusted according to Section 6 of the Agreement, or due to customer-caused delays, outlined below.</p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial3" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Project Structure & Process</div>
+                <p id="projectPhases"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial4" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Customer Responsibilities</div>
+                <p id="customerResponsibilities"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial5" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Feedback and Approvals</div>
+                <p id="feedbackPolicy"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial6" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Completion</div>
+                <p id="completionPolicy"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial7" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Cancellation Policy</div>
+                <p id="cancellationPolicy"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial8" maxlength="3">
+                </div>
+            </div>
+
+            <div class="exhibit-section">
+                <div class="exhibit-title">Refunds</div>
+                <p id="refundPolicy"></p>
+                <div class="initials-box">
+                    <span class="initials-label">Customer Initials:</span>
+                    <input type="text" class="initials-input" id="initial9" maxlength="3">
+                </div>
+            </div>
+
+            <!-- Final Signing Area -->
+            <div class="final-signature-area" id="signingArea">
                 <h2>Sign This Agreement</h2>
-                <p>By signing below, you agree to all terms and conditions outlined in this agreement.</p>
+                <p style="margin-bottom:20px;">Please initial all sections above, then provide your signature below.</p>
 
                 <div class="name-field">
-                    <label>Your Full Name</label>
+                    <label>Your Full Legal Name</label>
                     <input type="text" id="signerName" placeholder="Type your full legal name">
                 </div>
 
                 <div class="signature-pad-wrapper">
-                    <label>Draw Your Signature</label>
+                    <label style="display:block; padding:8px 12px; font-weight:600; font-size:13px; color:#666;">Draw Your Signature</label>
                     <canvas id="signaturePad"></canvas>
                     <div class="pad-actions">
                         <button class="clear-btn" onclick="clearSignature()">✕ Clear</button>
@@ -469,8 +456,7 @@
                 <div class="agree-check">
                     <input type="checkbox" id="agreeCheck">
                     <label for="agreeCheck">
-                        I have read and agree to all terms of this Web Design & Marketing Service Agreement.
-                        I understand this is a legally binding document.
+                        I have read and agree to all terms of this Web Design & Marketing Service Agreement. I understand this is a legally binding document.
                     </label>
                 </div>
 
@@ -485,11 +471,11 @@
 
         <div id="signedCard" style="display:none; text-align:center; padding: 60px 20px;">
             <div style="font-size:64px; margin-bottom:20px;">✅</div>
-            <h2 style="font-family:sans-serif; font-size:28px; margin-bottom:12px;">Agreement Signed!</h2>
-            <p style="font-family:sans-serif; color:#666; font-size:16px; margin-bottom:8px;">
+            <h2 style="font-size:28px; margin-bottom:12px;">Agreement Signed!</h2>
+            <p style="color:#666; font-size:16px; margin-bottom:8px;">
                 Thank you! A confirmation has been sent to your email.
             </p>
-            <p style="font-family:sans-serif; color:#999; font-size:14px;">
+            <p style="color:#999; font-size:14px;">
                 Signed on <span id="signedDate"></span>
             </p>
         </div>
@@ -501,7 +487,6 @@
         let signaturePad;
         let contract;
 
-        // Load contract data
         async function loadContract() {
             try {
                 const res = await fetch(`/api/contract/${contractId}`);
@@ -527,34 +512,30 @@
 
             } catch (e) {
                 document.getElementById('loadingState').innerHTML =
-                    `<p style="color:#c00050;font-family:sans-serif;">Error: ${e.message}</p>`;
+                    `<p style="color:#c00050;">Error: ${e.message}</p>`;
             }
         }
 
         function populateContract(c) {
             document.title = `Service Agreement — ${c.client_name}`;
-            document.getElementById('contractSubtitle').textContent =
-                `Agreement for ${c.client_name} · ${c.effective_date}`;
-            document.getElementById('metaClient').textContent = c.client_name;
-            document.getElementById('metaDate').textContent = c.effective_date || '—';
-            document.getElementById('metaEnd').textContent = c.term_end_date || '—';
 
-            document.getElementById('introText').textContent =
-                `This Web Design & Marketing Services Agreement is dated as of ${c.effective_date}, ` +
-                `between WeGo! Oakland ("Service Provider") and ${c.client_name} ("Customer"). ` +
-                `Service Provider shall provide services as outlined below, subject to the terms herein.`;
+            // Header info
+            document.getElementById('effectiveDate').textContent = c.effective_date || '__________';
+            document.getElementById('clientName').textContent = c.client_name;
+            document.getElementById('exCustomer').textContent = c.client_name;
 
-            // Payments
-            const p1 = parsePayment(c.payment_1);
-            const p2 = parsePayment(c.payment_2);
-            document.getElementById('pay1Amount').textContent = p1.amount;
-            document.getElementById('pay1Desc').textContent = p1.desc;
-            document.getElementById('pay2Amount').textContent = p2.amount;
-            document.getElementById('pay2Desc').textContent = p2.desc;
+            // Legal sections 1-19
+            document.getElementById('legalSections').innerHTML = getLegalText(c);
 
-            // Services
+            // Signature blocks
+            document.getElementById('sigCustomerFullName').textContent = c.client_name;
+
+            // Exhibit A
+            document.getElementById('payment1').textContent = c.payment_1 || '_______ non-refundable deposit payable upon contract signing';
+            document.getElementById('payment2').textContent = c.payment_2 || '_______ due upon completion of website, prior to launch & ownership transfer';
+
             document.getElementById('servicesTitle').textContent = c.services_title || 'Services to be Provided';
-            document.getElementById('servicesDesc').textContent = c.services_description || '';
+            document.getElementById('servicesDescription').textContent = c.services_description || '';
 
             // Includes list
             const includesList = document.getElementById('includesList');
@@ -569,64 +550,63 @@
                 });
             }
 
-            // Legal text
-            document.getElementById('legalText').innerHTML = getLegalText(c);
-        }
-
-        function parsePayment(paymentStr) {
-            if (!paymentStr) return { amount: '—', desc: '' };
-            const match = paymentStr.match(/(\$[\d,]+)/);
-            const amount = match ? match[1] : '';
-            const desc = paymentStr.replace(amount, '').replace(/^[\s\-]+/, '').trim();
-            return { amount: amount || paymentStr, desc };
+            document.getElementById('whatNotIncluded').textContent = c.what_not_included || 'This project does not include complex graphic logo design, original graphics or photography, e-commerce setup, third-party software integrations, member portals, or ongoing content updates after launch.';
+            document.getElementById('projectStart').textContent = c.project_start_date || c.effective_date || '______';
+            document.getElementById('projectEnd').textContent = c.term_end_date || '______';
+            document.getElementById('projectPhases').textContent = c.project_phases || 'Our work together will be a time-bound, phase-based process designed to keep the project moving efficiently. Each phase includes one (1) round of revisions. Once a phase is approved, the work completed in that phase is considered final.';
+            document.getElementById('customerResponsibilities').textContent = c.customer_responsibilities || 'Timely feedback and decisions from the Customer are crucial to maintain the schedule. Delays from the Customer could result in the automatic progression of the project, foregoing incomplete revisions, and potentially incurring extra charges.';
+            document.getElementById('feedbackPolicy').textContent = c.feedback_policy || 'A draft will be delivered to the Customer at the beginning of each feedback round. Feedback must be submitted within 48 hours; failure to provide feedback within this timeframe will automatically close that feedback round.';
+            document.getElementById('completionPolicy').textContent = c.completion_policy || 'Following the last feedback round, with all feedback provided timely, the services will be deemed complete. Any revisions or feedback outside the designated windows may not be accommodated, and additional charges will apply.';
+            document.getElementById('cancellationPolicy').textContent = c.cancellation_policy || 'The 50% deposit holds the Customer\'s place in the design calendar and is nonrefundable.';
+            document.getElementById('refundPolicy').textContent = c.refund_policy || 'No refunds will be issued once the project has commenced. If Customer cancels the project after it has started, any additional work completed beyond the deposit amount will be invoiced to Customer.';
         }
 
         function getLegalText(c) {
             return `
-                <div class="legal-section"><strong>1. Services.</strong> Service Provider shall provide to Customer the services (the "Services") set out in the statement of work (See Exhibit A, "Statement of Work"). Service Provider shall provide the Services in accordance with the terms and subject to the conditions set forth in this Agreement and the Statement of Work.</div>
+                <div class="section"><span class="section-number">1. Services.</span> Service Provider shall provide to Customer the services (the "Services") set out in the statement of work (See Exhibit A, "Statement of Work"). Service Provider shall provide the Services in accordance with the terms and subject to the conditions set forth in this Agreement and the Statement of Work.</div>
 
-                <div class="legal-section"><strong>2. Customer Obligations.</strong> Customer shall: Respond promptly to any reasonable requests from Service Provider for instructions, information, or approvals required by Service Provider to provide the Services. Cooperate with Service Provider in its performance of the Services and respond in a timely manner to requests from Service Provider, as outlined Exhibit A attached hereto. Take all steps necessary to prevent Customer-caused delays in Service Provider's provision of the Services.</div>
+                <div class="section"><span class="section-number">2. Customer Obligations.</span> Customer shall: Respond promptly to any reasonable requests from Service Provider for instructions, information, or approvals required by Service Provider to provide the Services. Cooperate with Service Provider in its performance of the Services and respond in a timely manner to requests from Service Provider, as outlined Exhibit A attached hereto. Take all steps necessary to prevent Customer-caused delays in Service Provider's provision of the Services.</div>
 
-                <div class="legal-section"><strong>3. Fees and Expenses.</strong> In consideration of the provision of the Services by the Service Provider and the rights granted to Customer under this Agreement, Customer shall pay the fees set out in Service Provider's then current fee schedule, as published/attached as Exhibit A. As described in Exhibit A attached hereto, the fees to be paid pursuant to 3.1 shall include a non-refundable deposit that shall be paid by Customer. Customer shall reimburse Service Provider for out-of-pocket expenses incurred by Service Provider for reasonable and necessary expenses incurred in connection with the performance of the Services provided that such expenses have been pre-approved by Customer. Customer shall pay all invoices for approved out-of-pocket expenses incurred by Service Provider within Seven (7) days of receipt by the Customer of an invoice from Service Provider accompanied by receipts and reasonable supporting documentation. Customer shall be responsible for all sales, use and excise taxes, and any other similar taxes, duties and charges of any kind imposed by any federal, state or local governmental entity on any amounts payable by Customer hereunder.</div>
+                <div class="section"><span class="section-number">3. Fees and Expenses.</span> In consideration of the provision of the Services by the Service Provider and the rights granted to Customer under this Agreement, Customer shall pay the fees set out in Service Provider's then current fee schedule, as published/attached as Exhibit A. As described in Exhibit A attached hereto, the fees to be paid pursuant to 3.1 shall include a non-refundable deposit that shall be paid by Customer. Customer shall reimburse Service Provider for out-of-pocket expenses incurred by Service Provider for reasonable and necessary expenses incurred in connection with the performance of the Services provided that such expenses have been pre-approved by Customer. Customer shall pay all invoices for approved out-of-pocket expenses incurred by Service Provider within Seven (7) days of receipt by the Customer of an invoice from Service Provider accompanied by receipts and reasonable supporting documentation. Customer shall be responsible for all sales, use and excise taxes, and any other similar taxes, duties and charges of any kind imposed by any federal, state or local governmental entity on any amounts payable by Customer hereunder.</div>
 
-                <div class="legal-section"><strong>4. Limited Warranty.</strong> Service Provider warrants that it shall perform the Services in a timely, workmanlike, and professional manner in accordance with generally recognized industry standards for similar services. Service Provider's sole and exclusive liability and Customer's sole and exclusive remedy for breach of this limited warranty shall be reperformance of the affected services. If Service Provider cannot reperform the services in compliance with the warranty set forth above within a reasonable time (but no more than 30 days) after Customer's written notice of such breach, Customer may, at its option, terminate the Agreement by serving written notice of termination in accordance with Section 6.2. Service Provider shall within 30 days after the effective date of such termination, refund to Customer a portion of the fees previously paid by Customer as of the date of termination corresponding to the defective Services. SERVICE PROVIDER MAKES NO WARRANTIES EXCEPT FOR THAT PROVIDED IN SECTION 4.1, ABOVE, ALL OTHER WARRANTIES, EXPRESS AND IMPLIED, ARE EXPRESSLY DISCLAIMED. PERSONAL DISSATISFACTION, SUBJECTIVE PREFERENCES, OR MATTERS OF TASTE SHALL NOT CONSTITUTE A BREACH OF THESE WARRANTIES.</div>
+                <div class="section"><span class="section-number">4. Limited Warranty.</span> Service Provider warrants that it shall perform the Services in a timely, workmanlike, and professional manner in accordance with generally recognized industry standards for similar services. Service Provider's sole and exclusive liability and Customer's sole and exclusive remedy for breach of this limited warranty shall be reperformance of the affected services. If Service Provider cannot reperform the services in compliance with the warranty set forth above within a reasonable time (but no more than 30 days) after Customer's written notice of such breach, Customer may, at its option, terminate the Agreement by serving written notice of termination in accordance with Section 6.2. Service Provider shall within 30 days after the effective date of such termination, refund to Customer a portion of the fees previously paid by Customer as of the date of termination corresponding to the defective Services. SERVICE PROVIDER MAKES NO WARRANTIES EXCEPT FOR THAT PROVIDED IN SECTION 4.1, ABOVE, ALL OTHER WARRANTIES, EXPRESS AND IMPLIED, ARE EXPRESSLY DISCLAIMED. PERSONAL DISSATISFACTION, SUBJECTIVE PREFERENCES, OR MATTERS OF TASTE SHALL NOT CONSTITUTE A BREACH OF THESE WARRANTIES.</div>
 
-                <div class="legal-section"><strong>5. Intellectual Property.</strong> Upon final payment, all intellectual property rights, including copyrights, patents, patent disclosures and inventions (whether patentable or not), trademarks, service marks, trade dress, trade names, logos, corporate names and domain names, and all other rights (collectively, "Intellectual Property Rights") in and to all customized documents, work product, and other materials specifically created for the Customer under this Agreement (the "Deliverables") shall be transferred to and owned by the Customer. However, Service Provider retains all Intellectual Property Rights in and to any underlying templates, code, standard layouts, general design elements, and pre-existing materials used in the course of performing the Services, and grants the Customer a non-exclusive, worldwide, fully paid-up, royalty-free license to use such materials as part of the Deliverables. This license is for the sole purpose of enabling the Customer to make reasonable use of the Deliverables as delivered in the context of the Services provided. To Customer's knowledge, intellectual property it provides to the Service Provider in connection with the Agreement does not infringe, misappropriate, or otherwise violate in any manner the intellectual property of any third party. To the Service Provider's knowledge, the designs provided to Customer under this Agreement do not infringe, misappropriate, or otherwise violate in any manner the intellectual property of any third party. Customer acknowledges that it is solely responsible for conducting any necessary trademark searches, obtaining legal clearance, and securing trademark registrations for its logo design. Service Provider shall not be liable for trademark infringement claims related to the use or registration of the Customer's logo, and Customer agrees to indemnify, hold harmless and promptly reimburse Service Provider for or in respect of any damages, losses or liabilities incurred by Service Provider arising from or in connection with any third party claim for infringement of such third party's intellectual property related to the Customer's logo or trademarks.</div>
+                <div class="section"><span class="section-number">5. Intellectual Property.</span> Upon final payment, all intellectual property rights, including copyrights, patents, patent disclosures and inventions (whether patentable or not), trademarks, service marks, trade dress, trade names, logos, corporate names and domain names, and all other rights (collectively, "Intellectual Property Rights") in and to all customized documents, work product, and other materials specifically created for the Customer under this Agreement (the "Deliverables") shall be transferred to and owned by the Customer. However, Service Provider retains all Intellectual Property Rights in and to any underlying templates, code, standard layouts, general design elements, and pre-existing materials used in the course of performing the Services, and grants the Customer a non-exclusive, worldwide, fully paid-up, royalty-free license to use such materials as part of the Deliverables. This license is for the sole purpose of enabling the Customer to make reasonable use of the Deliverables as delivered in the context of the Services provided. To Customer's knowledge, intellectual property it provides to the Service Provider in connection with the Agreement does not infringe, misappropriate, or otherwise violate in any manner the intellectual property of any third party. To the Service Provider's knowledge, the designs provided to Customer under this Agreement do not infringe, misappropriate, or otherwise violate in any manner the intellectual property of any third party. Customer acknowledges that it is solely responsible for conducting any necessary trademark searches, obtaining legal clearance, and securing trademark registrations for its logo design. Service Provider shall not be liable for trademark infringement claims related to the use or registration of the Customer's logo, and Customer agrees to indemnify, hold harmless and promptly reimburse Service Provider for or in respect of any damages, losses or liabilities incurred by Service Provider arising from or in connection with any third party claim for infringement of such third party's intellectual property related to the Customer's logo or trademarks.</div>
 
-                <div class="legal-section"><strong>6. Term, Termination, and Survival.</strong> This Agreement shall commence as of the Effective Date and shall continue thereafter until ${c.term_end_date || 'project completion'} (the "Term") unless sooner terminated pursuant to Sections 6.2 or 6.3 or unless both parties mutually agree to extend the Term. Either Party may terminate this Agreement, effective upon written notice to the other Party (the "Defaulting Party") if the Defaulting Party: Materially breaches this Agreement, and the Defaulting Party does not cure such material breach within 15 days after receipt of written notice of such breach, or such material breach is incapable of cure. The Parties acknowledge that design, creative, or professional services involve subjective judgment. Customer dissatisfaction with the aesthetics, style, or subjective qualities of the work product shall not constitute a breach of this Agreement, provided that the work substantially complies with the agreed-upon specifications, scope, and industry standard. Customer's sole remedy for dissatisfaction shall be limited to the revision and feedback schedule outlined in Exhibit A. Becomes insolvent or admits its inability to pay its debts generally as they become due. Becomes subject, voluntarily or involuntarily, to any proceeding under any domestic or foreign bankruptcy or insolvency law, which is not fully stayed within seven business days or is not dismissed or vacated within 45 days after filing. Is dissolved or liquidated or takes any corporate action for such purpose. Makes a general assignment for the benefit of creditors. Has a receiver, trustee, custodian, or similar agent appointed by order of any court of competent jurisdiction to take charge of or sell any material portion of its property or business. Notwithstanding anything to the contrary in this section, Service Provider may terminate this Agreement before the expiration date of the Term on written notice if Customer fails to pay any amount when due hereunder and such failure continues for 15 days after Customer's receipt of written notice of nonpayment. The rights and obligations of the Parties set forth in this Section 6.4 and in Sections 3.2, 4, 7, 13, 14, 15, 16, 17, and 19 and any right or obligation of the Parties in this Agreement which, by its nature, should survive termination or expiration of this Agreement, will survive any such termination or expiration of this Agreement.</div>
+                <div class="section"><span class="section-number">6. Term, Termination, and Survival.</span> This Agreement shall commence as of the Effective Date and shall continue thereafter until ${c.term_end_date || 'project completion'} (the "Term") unless sooner terminated pursuant to Sections 6.2 or 6.3 or unless both parties mutually agree to extend the Term. Either Party may terminate this Agreement, effective upon written notice to the other Party (the "Defaulting Party") if the Defaulting Party: Materially breaches this Agreement, and the Defaulting Party does not cure such material breach within 15 days after receipt of written notice of such breach, or such material breach is incapable of cure. The Parties acknowledge that design, creative, or professional services involve subjective judgment. Customer dissatisfaction with the aesthetics, style, or subjective qualities of the work product shall not constitute a breach of this Agreement, provided that the work substantially complies with the agreed-upon specifications, scope, and industry standard. Customer's sole remedy for dissatisfaction shall be limited to the revision and feedback schedule outlined in Exhibit A. Becomes insolvent or admits its inability to pay its debts generally as they become due. Becomes subject, voluntarily or involuntarily, to any proceeding under any domestic or foreign bankruptcy or insolvency law, which is not fully stayed within seven business days or is not dismissed or vacated within 45 days after filing. Is dissolved or liquidated or takes any corporate action for such purpose. Makes a general assignment for the benefit of creditors. Has a receiver, trustee, custodian, or similar agent appointed by order of any court of competent jurisdiction to take charge of or sell any material portion of its property or business. Notwithstanding anything to the contrary in this section, Service Provider may terminate this Agreement before the expiration date of the Term on written notice if Customer fails to pay any amount when due hereunder and such failure continues for 15 days after Customer's receipt of written notice of nonpayment. The rights and obligations of the Parties set forth in this Section 6.4 and in Sections 3.2, 4, 7, 13, 14, 15, 16, 17, and 19 and any right or obligation of the Parties in this Agreement which, by its nature, should survive termination or expiration of this Agreement, will survive any such termination or expiration of this Agreement.</div>
 
-                <div class="legal-section"><strong>7. Limitation of Liability.</strong> IN NO EVENT SHALL SERVICE PROVIDER BE LIABLE TO CUSTOMER OR TO ANY THIRD PARTY FOR ANY LOSS OF USE, REVENUE, OR PROFIT OR LOSS OF DATA OR DIMINUTION IN VALUE, OR FOR ANY CONSEQUENTIAL, INCIDENTAL, INDIRECT, EXEMPLARY, SPECIAL, OR PUNITIVE DAMAGES WHETHER ARISING OUT OF BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, REGARDLESS OF WHETHER SUCH DAMAGE WAS FORESEEABLE AND WHETHER OR NOT SERVICE PROVIDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, AND NOTWITHSTANDING THE FAILURE OF ANY AGREED OR OTHER REMEDY OF ITS ESSENTIAL PURPOSE. IN NO EVENT SHALL SERVICE PROVIDER'S AGGREGATE LIABILITY ARISING OUT OF OR RELATED TO THIS AGREEMENT, WHETHER ARISING OUT OF OR RELATED TO BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, EXCEED THE AGGREGATE AMOUNTS PAID OR PAYABLE TO SERVICE PROVIDER PURSUANT TO THIS AGREEMENT.</div>
+                <div class="section"><span class="section-number">7. Limitation of Liability.</span> IN NO EVENT SHALL SERVICE PROVIDER BE LIABLE TO CUSTOMER OR TO ANY THIRD PARTY FOR ANY LOSS OF USE, REVENUE, OR PROFIT OR LOSS OF DATA OR DIMINUTION IN VALUE, OR FOR ANY CONSEQUENTIAL, INCIDENTAL, INDIRECT, EXEMPLARY, SPECIAL, OR PUNITIVE DAMAGES WHETHER ARISING OUT OF BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, REGARDLESS OF WHETHER SUCH DAMAGE WAS FORESEEABLE AND WHETHER OR NOT SERVICE PROVIDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, AND NOTWITHSTANDING THE FAILURE OF ANY AGREED OR OTHER REMEDY OF ITS ESSENTIAL PURPOSE. IN NO EVENT SHALL SERVICE PROVIDER'S AGGREGATE LIABILITY ARISING OUT OF OR RELATED TO THIS AGREEMENT, WHETHER ARISING OUT OF OR RELATED TO BREACH OF CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE, EXCEED THE AGGREGATE AMOUNTS PAID OR PAYABLE TO SERVICE PROVIDER PURSUANT TO THIS AGREEMENT.</div>
 
-                <div class="legal-section"><strong>8. Entire Agreement.</strong> This Agreement constitutes the sole and entire agreement of the Parties with respect to the subject matter contained herein, and supersedes all prior and contemporaneous understandings, agreements, representations and warranties, both written and oral, regarding such subject matter.</div>
+                <div class="section"><span class="section-number">8. Entire Agreement.</span> This Agreement constitutes the sole and entire agreement of the Parties with respect to the subject matter contained herein, and supersedes all prior and contemporaneous understandings, agreements, representations and warranties, both written and oral, regarding such subject matter.</div>
 
-                <div class="legal-section"><strong>9. Severability.</strong> If any term or provision of this Agreement is found by a court of competent jurisdiction to be invalid, illegal or unenforceable in any jurisdiction, such invalidity, illegality or unenforceability shall not affect any other term or provision of this Agreement or invalidate or render unenforceable such term or provision in any other jurisdiction. Upon a determination that any term or provision is invalid, illegal or unenforceable, the Parties shall negotiate in good faith to modify this Agreement to effect the original intent of the Parties as closely as possible in order that the transactions contemplated hereby be consummated as originally contemplated to the greatest extent possible.</div>
+                <div class="section"><span class="section-number">9. Severability.</span> If any term or provision of this Agreement is found by a court of competent jurisdiction to be invalid, illegal or unenforceable in any jurisdiction, such invalidity, illegality or unenforceability shall not affect any other term or provision of this Agreement or invalidate or render unenforceable such term or provision in any other jurisdiction. Upon a determination that any term or provision is invalid, illegal or unenforceable, the Parties shall negotiate in good faith to modify this Agreement to effect the original intent of the Parties as closely as possible in order that the transactions contemplated hereby be consummated as originally contemplated to the greatest extent possible.</div>
 
-                <div class="legal-section"><strong>10. Amendments.</strong> No amendment to or modification of this Agreement is effective unless it is in writing and signed by each Party.</div>
+                <div class="section"><span class="section-number">10. Amendments.</span> No amendment to or modification of this Agreement is effective unless it is in writing and signed by each Party.</div>
 
-                <div class="legal-section"><strong>11. Waiver.</strong> No waiver by any Party of any of the provisions of this Agreement shall be effective unless explicitly set forth in writing and signed by the Party so waiving. Except as otherwise set forth in this Agreement, no failure to exercise, or delay in exercising, any Right operates as a waiver thereof. No single or partial exercise of any Right precludes any other or further exercise thereof or the exercise of any other Right. The Rights under this Agreement are cumulative and are in addition to any other rights and remedies available at law or in equity or otherwise; provided that, the parties intend that the remedy set out in Section 4 (Limited Warranty) is Customer's exclusive remedy for the Service Provider's breach of the limited warranty set out in Section 4.</div>
+                <div class="section"><span class="section-number">11. Waiver.</span> No waiver by any Party of any of the provisions of this Agreement shall be effective unless explicitly set forth in writing and signed by the Party so waiving. Except as otherwise set forth in this Agreement, no failure to exercise, or delay in exercising, any Right operates as a waiver thereof. No single or partial exercise of any Right precludes any other or further exercise thereof or the exercise of any other Right. The Rights under this Agreement are cumulative and are in addition to any other rights and remedies available at law or in equity or otherwise; provided that, the parties intend that the remedy set out in Section 4 (Limited Warranty) is Customer's exclusive remedy for the Service Provider's breach of the limited warranty set out in Section 4.</div>
 
-                <div class="legal-section"><strong>12. Assignment.</strong> Customer shall not assign, transfer, delegate or subcontract any of its rights or delegate any of its obligations under this Agreement without the prior written consent of Service Provider. Any purported assignment or delegation in violation of this Section 12 shall be null and void. No assignment or delegation shall relieve the Customer of any of its obligations under this Agreement. Service Provider may assign any of its rights or delegate any of its obligations to any affiliate or to any person acquiring all or substantially all of Service Provider's assets without Customer's consent.</div>
+                <div class="section"><span class="section-number">12. Assignment.</span> Customer shall not assign, transfer, delegate or subcontract any of its rights or delegate any of its obligations under this Agreement without the prior written consent of Service Provider. Any purported assignment or delegation in violation of this Section 12 shall be null and void. No assignment or delegation shall relieve the Customer of any of its obligations under this Agreement. Service Provider may assign any of its rights or delegate any of its obligations to any affiliate or to any person acquiring all or substantially all of Service Provider's assets without Customer's consent.</div>
 
-                <div class="legal-section"><strong>13. Successors and Assigns.</strong> This Agreement is binding on and inures to the benefit of the Parties to this Agreement and their respective permitted successors and permitted assigns.</div>
+                <div class="section"><span class="section-number">13. Successors and Assigns.</span> This Agreement is binding on and inures to the benefit of the Parties to this Agreement and their respective permitted successors and permitted assigns.</div>
 
-                <div class="legal-section"><strong>14. Relationship of the Parties.</strong> The relationship between the Parties is that of independent contractors. The details of the method and manner for performance of the Services by Service Provider shall be under its own control, Customer being interested only in the results thereof. The Service Provider shall be solely responsible for supervising, controlling and directing the details and manner of the completion of the Services. Nothing in this Agreement shall give the Customer the right to instruct, supervise, control, or direct the details and manner of the completion of the Services. The Services must meet the Customer's final approval and shall be subject to the Customer's general right of inspection throughout the performance of the Services and to secure satisfactory final completion. Nothing contained in this Agreement shall be construed as creating any agency, partnership, joint venture or other form of joint enterprise, employment or fiduciary relationship between the parties, and neither party shall have authority to contract for or bind the other party in any manner whatsoever.</div>
+                <div class="section"><span class="section-number">14. Relationship of the Parties.</span> The relationship between the Parties is that of independent contractors. The details of the method and manner for performance of the Services by Service Provider shall be under its own control, Customer being interested only in the results thereof. The Service Provider shall be solely responsible for supervising, controlling and directing the details and manner of the completion of the Services. Nothing in this Agreement shall give the Customer the right to instruct, supervise, control, or direct the details and manner of the completion of the Services. The Services must meet the Customer's final approval and shall be subject to the Customer's general right of inspection throughout the performance of the Services and to secure satisfactory final completion. Nothing contained in this Agreement shall be construed as creating any agency, partnership, joint venture or other form of joint enterprise, employment or fiduciary relationship between the parties, and neither party shall have authority to contract for or bind the other party in any manner whatsoever.</div>
 
-                <div class="legal-section"><strong>15. No Third-Party Beneficiaries.</strong> This Agreement benefits solely the Parties to this Agreement and their respective permitted successors and assigns and nothing in this Agreement, express or implied, confers on any other Person any legal or equitable right, benefit or remedy of any nature whatsoever under or by reason of this Agreement.</div>
+                <div class="section"><span class="section-number">15. No Third-Party Beneficiaries.</span> This Agreement benefits solely the Parties to this Agreement and their respective permitted successors and assigns and nothing in this Agreement, express or implied, confers on any other Person any legal or equitable right, benefit or remedy of any nature whatsoever under or by reason of this Agreement.</div>
 
-                <div class="legal-section"><strong>16. Governing Law.</strong> This Agreement and all related documents, including all exhibits attached hereto, and all matters arising out of or relating to this Agreement, whether sounding in contract, tort, or statute are governed by, and construed in accordance with, the laws of the State of California, United States of America, without giving effect to the conflict of laws provisions thereof to the extent such principles or rules would require or permit the application of the laws of any jurisdiction other than those of the State of California.</div>
+                <div class="section"><span class="section-number">16. Governing Law.</span> This Agreement and all related documents, including all exhibits attached hereto, and all matters arising out of or relating to this Agreement, whether sounding in contract, tort, or statute are governed by, and construed in accordance with, the laws of the State of California, United States of America, without giving effect to the conflict of laws provisions thereof to the extent such principles or rules would require or permit the application of the laws of any jurisdiction other than those of the State of California.</div>
 
-                <div class="legal-section"><strong>17. ARBITRATION.</strong> IN THE EVENT A DISPUTE ARISES UNDER THIS AGREEMENT, SUCH DISPUTE SHALL BE SUBMITTED TO ARBITRATION AND RESOLVED BY A SINGLE ARBITRATOR IN ACCORDANCE WITH THE COMMERCIAL ARBITRATION RULES OF THE AMERICAN ARBITRATION ASSOCIATION ("AAA"). THE ARBITRATOR SHALL BE SELECTED BY MUTUAL AGREEMENT OF THE PARTIES. ALL SUCH ARBITRATION SHALL BE CONFIDENTIAL AND BINDING AND SHALL BE CONDUCTED VIRTUALLY THROUGH THE AAA-ICDR® VIRTUAL ARBITRATION PROCESS. THE FEES OF ANY ARBITRATION SHALL BE BORNE EQUALLY BY CUSTOMER AND SERVICE PROVIDER. ANY DECISION OR AWARD AS A RESULT OF ANY SUCH ARBITRATION PROCEEDING SHALL BE IN WRITING AND SHALL PROVIDE AN EXPLANATION FOR ALL CONCLUSIONS OF LAW AND FACT AND SHALL INCLUDE THE ASSESSMENT OF COSTS, EXPENSES, AND REASONABLE ATTORNEYS' FEES. JUDGMENT UPON THE ARBITRAL AWARD MAY BE ENTERED IN ANY COURT OF COMPETENT JURISDICTION, OR APPLICATION MAY BE MADE TO SUCH COURT FOR A JUDICIAL RECOGNITION OF THE AWARD OR ANY ORDER OF ENFORCEMENT THEREOF. TO THE EXTENT JUDICIAL ACTION IN SUPPORT OF ARBITRATION IS NECESSARY, THE PARTIES HERETO HEREBY IRREVOCABLY SUBMIT TO THE EXCLUSIVE JURISDICTION OF THE STATE COURTS OF CALIFORNIA AND THE PARTIES HERETO IRREVOCABLY AGREE THAT ALL CLAIMS WITH RESPECT TO SUCH PROCEEDING SHALL BE HEARD AND DETERMINED IN SUCH STATE COURTS OF CALIFORNIA.</div>
+                <div class="section"><span class="section-number">17. ARBITRATION.</span> IN THE EVENT A DISPUTE ARISES UNDER THIS AGREEMENT, SUCH DISPUTE SHALL BE SUBMITTED TO ARBITRATION AND RESOLVED BY A SINGLE ARBITRATOR IN ACCORDANCE WITH THE COMMERCIAL ARBITRATION RULES OF THE AMERICAN ARBITRATION ASSOCIATION ("AAA"). THE ARBITRATOR SHALL BE SELECTED BY MUTUAL AGREEMENT OF THE PARTIES. ALL SUCH ARBITRATION SHALL BE CONFIDENTIAL AND BINDING AND SHALL BE CONDUCTED VIRTUALLY THROUGH THE AAA-ICDR® VIRTUAL ARBITRATION PROCESS. THE FEES OF ANY ARBITRATION SHALL BE BORNE EQUALLY BY CUSTOMER AND SERVICE PROVIDER. ANY DECISION OR AWARD AS A RESULT OF ANY SUCH ARBITRATION PROCEEDING SHALL BE IN WRITING AND SHALL PROVIDE AN EXPLANATION FOR ALL CONCLUSIONS OF LAW AND FACT AND SHALL INCLUDE THE ASSESSMENT OF COSTS, EXPENSES, AND REASONABLE ATTORNEYS' FEES. JUDGMENT UPON THE ARBITRAL AWARD MAY BE ENTERED IN ANY COURT OF COMPETENT JURISDICTION, OR APPLICATION MAY BE MADE TO SUCH COURT FOR A JUDICIAL RECOGNITION OF THE AWARD OR ANY ORDER OF ENFORCEMENT THEREOF. TO THE EXTENT JUDICIAL ACTION IN SUPPORT OF ARBITRATION IS NECESSARY, THE PARTIES HERETO HEREBY IRREVOCABLY SUBMIT TO THE EXCLUSIVE JURISDICTION OF THE STATE COURTS OF CALIFORNIA AND THE PARTIES HERETO IRREVOCABLY AGREE THAT ALL CLAIMS WITH RESPECT TO SUCH PROCEEDING SHALL BE HEARD AND DETERMINED IN SUCH STATE COURTS OF CALIFORNIA.</div>
 
-                <div class="legal-section"><strong>18. Counterparts.</strong> This Agreement may be executed in counterparts, each of which is deemed an original, but all of which together are deemed to be one and the same agreement. Notwithstanding anything to the contrary, a signed copy of this Agreement delivered by email or other means of electronic transmission is deemed to have the same legal effect as delivery of an original signed copy of this Agreement.</div>
+                <div class="section"><span class="section-number">18. Counterparts.</span> This Agreement may be executed in counterparts, each of which is deemed an original, but all of which together are deemed to be one and the same agreement. Notwithstanding anything to the contrary, a signed copy of this Agreement delivered by email or other means of electronic transmission is deemed to have the same legal effect as delivery of an original signed copy of this Agreement.</div>
 
-                <div class="legal-section"><strong>19. Force Majeure.</strong> No Party shall be liable or responsible to the other Party, or be deemed to have defaulted under or breached this Agreement, for any failure or delay in fulfilling or performing any term of this Agreement (except for any obligations of the Customer to make payments to Service Provider hereunder), when and to the extent such failure or delay is caused by or results from acts beyond the impacted party's ("Impacted Party") reasonable control, including, without limitation, the following force majeure events ("Force Majeure Event(s)"): (a) acts of God; (b) flood, fire, earthquake, epidemics or explosion; (c) war, invasion, hostilities (whether war is declared or not), terrorist threats or acts, riot or other civil unrest; (d) government order, law, or actions; (e) embargoes or blockades in effect on or after the date of this Agreement; (f) national or regional emergency; (g) strikes, labor stoppages or slowdowns, or other industrial disturbances; (h) telecommunication breakdowns, power outages or shortages, lack of warehouse or storage space, inadequate transportation services, or inability or delay in obtaining supplies of adequate or suitable materials; and (i) other events beyond the control of the Impacted Party. The Impacted Party shall give notice within 10 days of the Force Majeure Event to the other party, stating the period of time the occurrence is expected to continue. The Impacted Party shall use diligent efforts to end the failure or delay and ensure the effects of such Force Majeure Event are minimized. The Impacted Party shall resume the performance of its obligations as soon as reasonably practicable after the removal of the cause. In the event that the Impacted Party's failure or delay remains uncured for a period of 20 consecutive days following written notice given by it under this Section 19, the other Party may thereafter terminate this Agreement upon 10 days' written notice.</div>
+                <div class="section"><span class="section-number">19. Force Majeure.</span> No Party shall be liable or responsible to the other Party, or be deemed to have defaulted under or breached this Agreement, for any failure or delay in fulfilling or performing any term of this Agreement (except for any obligations of the Customer to make payments to Service Provider hereunder), when and to the extent such failure or delay is caused by or results from acts beyond the impacted party's ("Impacted Party") reasonable control, including, without limitation, the following force majeure events ("Force Majeure Event(s)"): (a) acts of God; (b) flood, fire, earthquake, epidemics or explosion; (c) war, invasion, hostilities (whether war is declared or not), terrorist threats or acts, riot or other civil unrest; (d) government order, law, or actions; (e) embargoes or blockades in effect on or after the date of this Agreement; (f) national or regional emergency; (g) strikes, labor stoppages or slowdowns, or other industrial disturbances; (h) telecommunication breakdowns, power outages or shortages, lack of warehouse or storage space, inadequate transportation services, or inability or delay in obtaining supplies of adequate or suitable materials; and (i) other events beyond the control of the Impacted Party. The Impacted Party shall give notice within 10 days of the Force Majeure Event to the other party, stating the period of time the occurrence is expected to continue. The Impacted Party shall use diligent efforts to end the failure or delay and ensure the effects of such Force Majeure Event are minimized. The Impacted Party shall resume the performance of its obligations as soon as reasonably practicable after the removal of the cause. In the event that the Impacted Party's failure or delay remains uncured for a period of 20 consecutive days following written notice given by it under this Section 19, the other Party may thereafter terminate this Agreement upon 10 days' written notice.</div>
             `;
         }
 
         function initSignaturePad() {
             const canvas = document.getElementById('signaturePad');
             canvas.width = canvas.offsetWidth;
-            canvas.height = 160;
+            canvas.height = 150;
             signaturePad = new SignaturePad(canvas, {
                 backgroundColor: 'rgb(255, 255, 255)',
                 penColor: '#000000'
@@ -635,7 +615,7 @@
             window.addEventListener('resize', () => {
                 const ratio = Math.max(window.devicePixelRatio || 1, 1);
                 canvas.width = canvas.offsetWidth * ratio;
-                canvas.height = 160 * ratio;
+                canvas.height = 150 * ratio;
                 canvas.getContext('2d').scale(ratio, ratio);
                 signaturePad.clear();
             });
@@ -648,6 +628,16 @@
         async function submitSignature() {
             const name = document.getElementById('signerName').value.trim();
             const agreed = document.getElementById('agreeCheck').checked;
+
+            // Collect all initials
+            const initials = {};
+            for (let i = 1; i <= 9; i++) {
+                const val = document.getElementById(`initial${i}`).value.trim();
+                if (!val) {
+                    return showError(`Please provide your initials for all sections in Exhibit A (section ${i} is missing).`);
+                }
+                initials[`initial${i}`] = val;
+            }
 
             if (!name) return showError('Please enter your full name.');
             if (!signaturePad || signaturePad.isEmpty()) return showError('Please draw your signature.');
@@ -662,26 +652,18 @@
                 const res = await fetch(`/api/contract/${contractId}/sign`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ signerName: name, signatureData })
+                    body: JSON.stringify({ signerName: name, signatureData, initialsData: initials })
                 });
 
                 const result = await res.json();
                 if (!result.success) throw new Error(result.error || 'Signing failed');
 
                 // Show success
-                document.getElementById('signingArea').style.display = 'none';
-                document.getElementById('contractCard').style.borderRadius = '16px';
+                document.getElementById('contractCard').style.display = 'none';
+                document.getElementById('signedCard').style.display = 'block';
+                document.getElementById('signedDate').textContent = new Date().toLocaleDateString();
                 document.getElementById('statusBadge').textContent = 'Signed ✓';
                 document.getElementById('statusBadge').className = 'status-badge status-signed';
-
-                const successDiv = document.createElement('div');
-                successDiv.style.cssText = 'text-align:center;padding:50px;font-family:sans-serif;';
-                successDiv.innerHTML = `
-                    <div style="font-size:56px;margin-bottom:16px;">✅</div>
-                    <h2 style="font-size:24px;margin-bottom:8px;">Agreement Signed!</h2>
-                    <p style="color:#666;">A confirmation has been sent to ${contract.client_email}</p>
-                `;
-                document.getElementById('contractCard').appendChild(successDiv);
 
             } catch (e) {
                 showError(e.message);
