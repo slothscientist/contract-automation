@@ -92,110 +92,63 @@
             text-decoration: underline;
         }
 
-        .subsection {
-            margin-left: 30px;
-            margin-top: 12px;
+        /* SIGNATURE SECTION */
+        .signature-section {
+            margin: 50px 0;
+            padding: 40px;
+            background: var(--cream);
+            border-radius: 8px;
+            page-break-inside: avoid;
         }
 
-        .signature-block {
-            margin-top: 50px;
-            page-break-inside: avoid;
+        .signature-section h2 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .sig-party {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .sig-party-header {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: var(--pink);
         }
 
         .sig-line {
             border-top: 2px solid var(--black);
             width: 300px;
-            margin: 40px 0 8px 0;
+            margin: 20px 0 8px 0;
         }
 
         .sig-label {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .exhibit-header {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            margin: 50px 0 30px;
-            text-decoration: underline;
-        }
-
-        .exhibit-section {
-            margin-bottom: 30px;
-        }
-
-        .exhibit-title {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 12px;
-        }
-
-        .initials-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin: 16px 0;
-            padding: 10px;
-            background: var(--cream);
-            border-radius: 4px;
-        }
-
-        .initials-label {
-            font-weight: 600;
             font-size: 14px;
-        }
-
-        .initials-input {
-            border: 2px solid var(--black);
-            width: 60px;
-            height: 35px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 4px;
-            background: white;
-        }
-
-        ul {
-            margin: 12px 0 12px 40px;
-        }
-
-        .final-signature-area {
-            margin-top: 60px;
-            padding: 40px;
-            background: var(--cream);
-            border-radius: 8px;
-        }
-
-        .final-signature-area h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        .name-field {
-            margin-bottom: 20px;
-        }
-
-        .name-field label {
-            display: block;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-top: 8px;
         }
 
-        .name-field input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
+        .pre-signed {
+            display: inline-block;
+            background: #00c853;
+            color: white;
+            padding: 4px 12px;
             border-radius: 4px;
-            font-size: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 10px;
         }
 
         .signature-pad-wrapper {
             border: 2px dashed #999;
             border-radius: 8px;
             background: white;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         #signaturePad {
@@ -221,56 +174,175 @@
 
         .clear-btn:hover { color: var(--pink); }
 
+        .name-field {
+            margin: 20px 0;
+        }
+
+        .name-field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .name-field input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .name-field input:focus {
+            outline: none;
+            border-color: var(--pink);
+        }
+
+        /* EXHIBIT A */
+        .exhibit-header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 50px 0 30px;
+            text-decoration: underline;
+        }
+
+        .exhibit-section {
+            margin-bottom: 30px;
+        }
+
+        .exhibit-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .initials-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 0;
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .initials-box.active {
+            border-color: var(--pink);
+            background: #fff5fa;
+            box-shadow: 0 0 0 3px rgba(233, 0, 127, 0.1);
+        }
+
+        .initials-box.completed {
+            border-color: #00c853;
+            background: #f0fff4;
+        }
+
+        .initials-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .initials-input {
+            border: 2px solid var(--black);
+            width: 70px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 4px;
+            background: white;
+            text-transform: uppercase;
+        }
+
+        .initials-input:focus {
+            outline: none;
+            border-color: var(--pink);
+        }
+
+        .initials-input.filled {
+            background: #e8f5e9;
+            border-color: #00c853;
+        }
+
+        ul {
+            margin: 12px 0 12px 40px;
+        }
+
         .agree-check {
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            margin-bottom: 20px;
+            margin: 30px 0 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 6px;
         }
 
         .agree-check input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             margin-top: 2px;
             accent-color: var(--pink);
         }
 
         .sign-btn {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: var(--pink);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            margin-top: 20px;
         }
 
-        .sign-btn:hover { transform: translateY(-2px); }
+        .sign-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 0, 127, 0.3);
+        }
+
         .sign-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
 
-        .loading { display: none; text-align: center; padding: 20px; }
+        .loading { display: none; text-align: center; padding: 20px; color: #666; }
         .loading.active { display: block; }
 
         .error-msg {
             background: #fff0f5;
             border: 1px solid #ffb3d1;
             color: #c00050;
-            padding: 12px;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border-radius: 6px;
             margin-top: 12px;
             display: none;
         }
         .error-msg.active { display: block; }
 
+        .initials-progress {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .initials-progress span {
+            color: var(--pink);
+            font-size: 16px;
+        }
+
         @media print {
-            .header-bar, .final-signature-area { display: none; }
+            .header-bar { display: none; }
         }
     </style>
 </head>
@@ -308,29 +380,56 @@
             <!-- Legal Sections 1-19 -->
             <div id="legalSections"></div>
 
-            <!-- Signature Blocks for Both Parties -->
-            <div class="signature-block">
+            <!-- SIGNATURE SECTION (Before Exhibit A) -->
+            <div class="signature-section" id="signatureSection">
                 <p style="text-align:center; font-weight:700; margin-bottom:40px;">[signature page follows]</p>
-                <p style="text-align:center; font-weight:700; margin-bottom:30px;">IN WITNESS WHEREOF, the parties hereto have caused this Agreement to be duly executed as of the Effective Date.</p>
+                <h2>IN WITNESS WHEREOF, the parties hereto have caused this Agreement to be duly executed as of the Effective Date.</h2>
 
-                <div style="margin-top:50px;">
-                    <p style="font-weight:700; margin-bottom:20px;">CUSTOMER:</p>
-                    <div class="sig-line"></div>
-                    <p class="sig-label">By: <span id="sigCustomerName">_____________________</span></p>
-                    <p class="sig-label" style="margin-top:8px;">Name: <span id="sigCustomerFullName"></span></p>
+                <!-- Service Provider - PRE-SIGNED -->
+                <div class="sig-party">
+                    <div class="sig-party-header">
+                        SERVICE PROVIDER: <span class="pre-signed">✓ SIGNED</span>
+                    </div>
+                    <div class="sig-line" style="background: #00c853; height: 3px;"></div>
+                    <p class="sig-label">By: Salaams J. deRosa</p>
+                    <p class="sig-label">Name: Salaams J. deRosa</p>
+                    <p class="sig-label">WeGo! Oakland</p>
+                    <p class="sig-label" style="color:#666; font-size:12px; margin-top:8px;">Signed on: <span id="providerSignDate"></span></p>
                 </div>
 
-                <div style="margin-top:60px;">
-                    <p style="font-weight:700; margin-bottom:20px;">SERVICE PROVIDER:</p>
-                    <div class="sig-line"></div>
-                    <p class="sig-label">By: _____________________</p>
-                    <p class="sig-label" style="margin-top:8px;">Name: Salaams J. deRosa</p>
-                    <p class="sig-label" style="margin-top:4px;">WeGo! Oakland</p>
+                <!-- Customer - TO BE SIGNED -->
+                <div class="sig-party">
+                    <div class="sig-party-header">CUSTOMER:</div>
+
+                    <div class="name-field">
+                        <label>Your Full Legal Name *</label>
+                        <input type="text" id="signerName" placeholder="Type your full legal name">
+                    </div>
+
+                    <label style="display:block; font-weight:600; margin-top:20px; margin-bottom:10px;">Draw Your Signature *</label>
+                    <div class="signature-pad-wrapper">
+                        <canvas id="signaturePad"></canvas>
+                        <div class="pad-actions">
+                            <button class="clear-btn" onclick="clearSignature()">✕ Clear</button>
+                        </div>
+                    </div>
+
+                    <p style="font-size:13px; color:#666; margin-top:10px;">
+                        By signing above, you agree to all terms and conditions outlined in this agreement and Exhibit A below.
+                    </p>
                 </div>
             </div>
 
-            <!-- EXHIBIT A -->
+            <!-- EXHIBIT A (After Signatures) -->
             <div class="exhibit-header">EXHIBIT A<br>STATEMENT OF WORK</div>
+
+            <p style="text-align:center; background:#fff5fa; padding:16px; border-radius:6px; margin-bottom:30px; font-weight:600; color:var(--pink);">
+                Please initial each section below to acknowledge you have read and agree to the terms.
+            </p>
+
+            <div class="initials-progress" id="initialsProgress">
+                <span id="initialsCount">0/9</span> sections initialed
+            </div>
 
             <div class="exhibit-section">
                 <p><strong>Customer:</strong> <span id="exCustomer"></span></p>
@@ -357,111 +456,95 @@
                 <p id="servicesDescription"></p>
                 <p style="margin-top:12px; font-weight:600;">Includes:</p>
                 <ul id="includesList"></ul>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox1" data-index="1">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial1" maxlength="3">
+                    <input type="text" class="initials-input" id="initial1" maxlength="3" data-index="1">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">What's Not Included</div>
                 <p id="whatNotIncluded"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox2" data-index="2">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial2" maxlength="3">
+                    <input type="text" class="initials-input" id="initial2" maxlength="3" data-index="2">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Project Timeline</div>
                 <p>The project will run from <strong id="projectStart"></strong> to <strong id="projectEnd"></strong>. The anticipated completion date may be adjusted according to Section 6 of the Agreement, or due to customer-caused delays, outlined below.</p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox3" data-index="3">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial3" maxlength="3">
+                    <input type="text" class="initials-input" id="initial3" maxlength="3" data-index="3">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Project Structure & Process</div>
                 <p id="projectPhases"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox4" data-index="4">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial4" maxlength="3">
+                    <input type="text" class="initials-input" id="initial4" maxlength="3" data-index="4">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Customer Responsibilities</div>
                 <p id="customerResponsibilities"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox5" data-index="5">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial5" maxlength="3">
+                    <input type="text" class="initials-input" id="initial5" maxlength="3" data-index="5">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Feedback and Approvals</div>
                 <p id="feedbackPolicy"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox6" data-index="6">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial6" maxlength="3">
+                    <input type="text" class="initials-input" id="initial6" maxlength="3" data-index="6">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Completion</div>
                 <p id="completionPolicy"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox7" data-index="7">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial7" maxlength="3">
+                    <input type="text" class="initials-input" id="initial7" maxlength="3" data-index="7">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Cancellation Policy</div>
                 <p id="cancellationPolicy"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox8" data-index="8">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial8" maxlength="3">
+                    <input type="text" class="initials-input" id="initial8" maxlength="3" data-index="8">
                 </div>
             </div>
 
             <div class="exhibit-section">
                 <div class="exhibit-title">Refunds</div>
                 <p id="refundPolicy"></p>
-                <div class="initials-box">
+                <div class="initials-box" id="initialsBox9" data-index="9">
                     <span class="initials-label">Customer Initials:</span>
-                    <input type="text" class="initials-input" id="initial9" maxlength="3">
+                    <input type="text" class="initials-input" id="initial9" maxlength="3" data-index="9">
                 </div>
             </div>
 
-            <!-- Final Signing Area -->
-            <div class="final-signature-area" id="signingArea">
-                <h2>Sign This Agreement</h2>
-                <p style="margin-bottom:20px;">Please initial all sections above, then provide your signature below.</p>
-
-                <div class="name-field">
-                    <label>Your Full Legal Name</label>
-                    <input type="text" id="signerName" placeholder="Type your full legal name">
-                </div>
-
-                <div class="signature-pad-wrapper">
-                    <label style="display:block; padding:8px 12px; font-weight:600; font-size:13px; color:#666;">Draw Your Signature</label>
-                    <canvas id="signaturePad"></canvas>
-                    <div class="pad-actions">
-                        <button class="clear-btn" onclick="clearSignature()">✕ Clear</button>
-                    </div>
-                </div>
-
+            <!-- Final Submission -->
+            <div style="margin-top:50px; padding:30px; background:var(--cream); border-radius:8px;">
                 <div class="agree-check">
                     <input type="checkbox" id="agreeCheck">
                     <label for="agreeCheck">
-                        I have read and agree to all terms of this Web Design & Marketing Service Agreement. I understand this is a legally binding document.
+                        I have read and agree to all terms of this Web Design & Marketing Service Agreement, including all sections of Exhibit A above. I understand this is a legally binding document.
                     </label>
                 </div>
 
                 <button class="sign-btn" id="signBtn" onclick="submitSignature()">
-                    Sign Agreement
+                    Complete Agreement
                 </button>
 
                 <div class="loading" id="signingLoader">Saving your signature...</div>
@@ -486,6 +569,7 @@
         const contractId = window.location.pathname.split('/').pop();
         let signaturePad;
         let contract;
+        let currentInitialIndex = 1;
 
         async function loadContract() {
             try {
@@ -509,6 +593,7 @@
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('contractCard').style.display = 'block';
                 initSignaturePad();
+                initInitialsFlow();
 
             } catch (e) {
                 document.getElementById('loadingState').innerHTML =
@@ -524,11 +609,11 @@
             document.getElementById('clientName').textContent = c.client_name;
             document.getElementById('exCustomer').textContent = c.client_name;
 
+            // Provider sign date (use effective date or today)
+            document.getElementById('providerSignDate').textContent = c.effective_date || new Date().toLocaleDateString();
+
             // Legal sections 1-19
             document.getElementById('legalSections').innerHTML = getLegalText(c);
-
-            // Signature blocks
-            document.getElementById('sigCustomerFullName').textContent = c.client_name;
 
             // Exhibit A
             document.getElementById('payment1').textContent = c.payment_1 || '_______ non-refundable deposit payable upon contract signing';
@@ -625,23 +710,89 @@
             if (signaturePad) signaturePad.clear();
         }
 
+        function initInitialsFlow() {
+            // Add event listeners to all initial inputs
+            for (let i = 1; i <= 9; i++) {
+                const input = document.getElementById(`initial${i}`);
+                const box = document.getElementById(`initialsBox${i}`);
+
+                input.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.toUpperCase();
+                    if (e.target.value.trim()) {
+                        input.classList.add('filled');
+                        box.classList.add('completed');
+                        box.classList.remove('active');
+
+                        // Auto-focus next if exists
+                        if (i < 9) {
+                            const nextInput = document.getElementById(`initial${i + 1}`);
+                            const nextBox = document.getElementById(`initialsBox${i + 1}`);
+                            nextBox.classList.add('active');
+                            setTimeout(() => {
+                                nextInput.focus();
+                                nextInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 300);
+                        }
+                    } else {
+                        input.classList.remove('filled');
+                        box.classList.remove('completed');
+                    }
+                    updateInitialsProgress();
+                });
+
+                input.addEventListener('focus', () => {
+                    box.classList.add('active');
+                });
+
+                input.addEventListener('blur', () => {
+                    if (!input.value.trim()) {
+                        box.classList.remove('active');
+                    }
+                });
+            }
+
+            // Activate first box
+            document.getElementById('initialsBox1').classList.add('active');
+            updateInitialsProgress();
+        }
+
+        function updateInitialsProgress() {
+            let filled = 0;
+            for (let i = 1; i <= 9; i++) {
+                if (document.getElementById(`initial${i}`).value.trim()) {
+                    filled++;
+                }
+            }
+            document.getElementById('initialsCount').textContent = `${filled}/9`;
+        }
+
         async function submitSignature() {
             const name = document.getElementById('signerName').value.trim();
             const agreed = document.getElementById('agreeCheck').checked;
 
             // Collect all initials
             const initials = {};
+            let allFilled = true;
             for (let i = 1; i <= 9; i++) {
                 const val = document.getElementById(`initial${i}`).value.trim();
                 if (!val) {
-                    return showError(`Please provide your initials for all sections in Exhibit A (section ${i} is missing).`);
+                    allFilled = false;
+                    // Highlight missing initial
+                    const box = document.getElementById(`initialsBox${i}`);
+                    box.classList.add('active');
+                    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    document.getElementById(`initial${i}`).focus();
+                    return showError(`Please provide your initials for section ${i} in Exhibit A.`);
                 }
                 initials[`initial${i}`] = val;
             }
 
-            if (!name) return showError('Please enter your full name.');
-            if (!signaturePad || signaturePad.isEmpty()) return showError('Please draw your signature.');
-            if (!agreed) return showError('Please agree to the terms to continue.');
+            if (!name) return showError('Please enter your full name in the signature section above.');
+            if (!signaturePad || signaturePad.isEmpty()) {
+                document.getElementById('signaturePad').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return showError('Please draw your signature in the signature section above.');
+            }
+            if (!agreed) return showError('Please check the agreement box to continue.');
 
             document.getElementById('signBtn').disabled = true;
             document.getElementById('signingLoader').classList.add('active');
