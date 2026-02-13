@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Provider Signature — WeGo! Oakland</title>
+    <style>
+        :root {
+            --pink: #e9007f;
+            --cream: #faf7f2;
+            --black: #000000;
+            --yellow: #fce81d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--cream);
+            color: var(--black);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--pink);
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .signature-area {
+            border: 3px dashed #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+            margin-bottom: 20px;
+            cursor: crosshair;
+        }
+
+        canvas {
+            width: 100%;
+            height: 200px;
+            display: block;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .clear-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .save-btn {
+            background: var(--pink);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 0, 127, 0.3);
+        }
+
+        .save-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #81c784;
+        }
+
+        .message.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+
+        .message.active { display: block; }
+
+        .preview {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--cream);
+            border-radius: 8px;
+        }
+
+        .preview h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #666;
+        }
+
+        .preview-sig {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .preview-sig img {
+            max-width: 300px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Set Your Signature</h1>
+        <p>Draw your signature below. This will appear on all service agreements as the pre-signed provider signature.</p>
+
+        <div class="signature-area">
+            <canvas id="signaturePad"></canvas>
+        </div>
+
+        <div class="buttons">
+            <button class="clear-btn" onclick="clearSignature()">Clear</button>
+            <button class="save-btn" id="saveBtn" onclick="saveSignature()">Save Signature</button>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="preview" id="preview" style="display:none;">
+            <h3>Current Saved Signature:</h3>
+            <div class="preview-sig">
+                <img id="previewImg" src="/provider-signature.png" alt="Your signature">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <script>
+        let signaturePad;
+
+        function initSignaturePad() {
+            const canvas = document.getElementById('signaturePad');
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = 200 * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+
+            signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(250, 250, 250)',
+                penColor: '#000000'
+            });
+
+            window.addEventListener('resize', () => {
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = 200 * ratio;
+                canvas.getContext('2d').scale(ratio, ratio);
+            });
+        }
+
+        function clearSignature() {
+            if (signaturePad) signaturePad.clear();
+        }
+
+        async function saveSignature() {
+            if (!signaturePad || signaturePad.isEmpty()) {
+                showMessage('Please draw your signature first.', 'error');
+                return;
+            }
+
+            document.getElementById('saveBtn').disabled = true;
+
+            try {
+                const signatureData = signaturePad.toDataURL('image/png');
+
+                const res = await fetch('/api/save-provider-signature', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ signatureData })
+                });
+
+                const result = await res.json();
+
+                if (!result.success) throw new Error(result.error || 'Failed to save signature');
+
+                showMessage('✓ Signature saved! It will now appear on all contracts.', 'success');
+
+                // Show preview
+                setTimeout(() => {
+                    document.getElementById('preview').style.display = 'block';
+                    document.getElementById('previewImg').src = '/provider-signature.png?' + new Date().getTime();
+                }, 500);
+
+            } catch (e) {
+                showMessage('Error: ' + e.message, 'error');
+            } finally {
+                document.getElementById('saveBtn').disabled = false;
+            }
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = `message ${type} active`;
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    msg.classList.remove('active');
+                }, 5000);
+            }
+        }
+
+        // Check if signature already exists
+        async function checkExistingSignature() {
+            try {
+                const res = await fetch('/provider-signature.png');
+                if (res.ok) {
+                    document.getElementById('preview').style.display = 'block';
+                }
+            } catch (e) {
+                // No existing signature, that's fine
+            }
+        }
+
+        initSignaturePad();
+        checkExistingSignature();
+    </script>
+</body>
+</html>

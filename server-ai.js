@@ -203,6 +203,38 @@ app.get('/api/contracts', (req, res) => {
   }
 });
 
+// ─── Save Provider Signature ─────────────────────────────────────────────────
+app.post('/api/save-provider-signature', (req, res) => {
+  try {
+    const { signatureData } = req.body;
+
+    if (!signatureData || !signatureData.startsWith('data:image/png;base64,')) {
+      return res.status(400).json({ success: false, error: 'Invalid signature data' });
+    }
+
+    // Extract base64 data
+    const base64Data = signatureData.replace(/^data:image\/png;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    // Save to public folder
+    const fs = require('fs');
+    const signaturePath = path.join(__dirname, 'public', 'provider-signature.png');
+    fs.writeFileSync(signaturePath, buffer);
+
+    console.log('✅ Provider signature saved to:', signaturePath);
+    res.json({ success: true, message: 'Signature saved successfully' });
+
+  } catch (error) {
+    console.error('Error saving signature:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Serve admin signature page
+app.get('/admin/sign', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin-sign.html'));
+});
+
 // ─── Email Functions ─────────────────────────────────────────────────────────
 async function sendSigningEmail(toEmail, clientName, contractUrl) {
   try {
