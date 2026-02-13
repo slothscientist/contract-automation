@@ -315,8 +315,8 @@ Includes: 20-page site, member directory, event calendar, payment processing..."
                             <div class="field-label">Includes (one per line)</div>
                             <textarea id="f_includesList" style="min-height:120px;"></textarea>
                         </div>
-                        <button class="btn btn-black" id="sendBtn">Send Contract to Client →</button>
-                        <div class="spinner" id="sendSpinner">Creating contract and sending email...</div>
+                        <button class="btn btn-black" id="sendBtn">Review Contract →</button>
+                        <div class="spinner" id="sendSpinner">Creating contract...</div>
                         <div class="msg" id="sendMsg"></div>
                     </div>
                 </div>
@@ -405,13 +405,13 @@ Includes: 20-page site, member directory, event calendar, payment processing..."
                 const result = await res.json();
                 if (!result.success) throw new Error(result.error);
 
-                // Show success
-                document.getElementById('step1').style.display = 'none';
-                document.getElementById('reviewPanel').style.display = 'none';
-                document.getElementById('successCard').classList.add('active');
-                document.getElementById('successClient').textContent = `Agreement sent to ${data.clientName}`;
-                document.getElementById('successEmail').textContent = data.signerEmail;
-                document.getElementById('successLink').href = result.contractUrl;
+                // Open contract directly in new tab
+                window.open(result.contractUrl, '_blank');
+
+                // Reset form for next contract
+                setTimeout(() => {
+                    resetForm();
+                }, 500);
 
             } catch (e) {
                 showMsg('sendMsg', 'error', '❌ ' + e.message);
