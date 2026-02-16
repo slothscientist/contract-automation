@@ -8,6 +8,10 @@ const { v4: uuidv4 } = require('uuid');
 const OpenAI = require('openai');
 const { Resend } = require('resend');
 const db = require('./database');
+const multer = require('multer');
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +23,25 @@ const resend = new Resend(process.env.RESEND_API_KEY || 'missing');
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
+
+// Configure multer for file uploads
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /pdf|docx|doc|txt/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype) ||
+      file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      file.mimetype === 'application/msword' ||
+      file.mimetype === 'text/plain';
+
+    if (extname && mimetype) {
+      return cb(null, true);
+    }
+    cb(new Error('Only PDF, Word, or Text files are allowed'));
+  }
+});
 
 // Serve contract page for /contract/:id
 app.get('/contract/:id', (req, res) => {
@@ -76,6 +99,55 @@ Format payments as clean readable strings. Extract Exhibit A details from propos
 
   } catch (error) {
     console.error('AI parsing error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// ─── Extract Text from Uploaded File ──────────────────────────────────────────
+app.post('/api/extract-file-text', upload.single('file'), async (req, res) => {
+  let filePath = null;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: 'No file uploaded' });
+    }
+
+    filePath = req.file.path;
+    const fileExt = path.extname(req.file.originalname).toLowerCase();
+    let text = '';
+
+    console.log(`Extracting text from ${fileExt} file: ${req.file.originalname}`);
+
+    // Extract text based on file type
+    if (fileExt === '.pdf') {
+      const dataBuffer = fs.readFileSync(filePath);
+      const data = await pdfParse(dataBuffer);
+      text = data.text;
+    } else if (fileExt === '.docx' || fileExt === '.doc') {
+      const result = await mammoth.extractRawText({ path: filePath });
+      text = result.value;
+    } else if (fileExt === '.txt') {
+      text = fs.readFileSync(filePath, 'utf8');
+    } else {
+      throw new Error('Unsupported file type');
+    }
+
+    // Clean up uploaded file
+    fs.unlinkSync(filePath);
+
+    if (!text || text.trim().length < 50) {
+      return res.status(400).json({ success: false, error: 'Could not extract enough text from the file' });
+    }
+
+    console.log(`✅ Extracted ${text.length} characters from file`);
+    res.json({ success: true, text: text.trim() });
+
+  } catch (error) {
+    console.error('File extraction error:', error);
+    // Clean up file if it exists
+    if (filePath && fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
     res.status(500).json({ success: false, error: error.message });
   }
 });

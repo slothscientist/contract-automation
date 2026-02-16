@@ -268,6 +268,15 @@ Fee: $9,000 total
 Services: Complete website redesign + member management platform
 Includes: 20-page site, member directory, event calendar, payment processing..."></textarea>
                     </div>
+
+                    <div style="text-align: center; margin: 20px 0; color: #999; font-weight: 600;">— OR —</div>
+
+                    <div style="margin-bottom: 24px;">
+                        <label for="fileUpload" style="display: block; font-weight: 600; margin-bottom: 8px; color: #333;">Upload Proposal File</label>
+                        <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.txt" style="display: block; width: 100%; padding: 12px; border: 2px dashed #ddd; border-radius: 8px; background: #fafafa; cursor: pointer;">
+                        <p style="font-size: 13px; color: #999; margin-top: 8px;">Accepts: PDF, Word (.docx), or Text files</p>
+                    </div>
+
                     <button class="btn btn-pink" id="parseBtn">Extract Details →</button>
                     <div class="spinner" id="parseSpinner">Analyzing proposal...</div>
                     <div class="msg" id="parseMsg"></div>
@@ -342,16 +351,40 @@ Includes: 20-page site, member directory, event calendar, payment processing..."
 
         document.getElementById('parseBtn').addEventListener('click', async () => {
             const text = document.getElementById('proposalText').value.trim();
-            if (text.length < 50) return showMsg('parseMsg', 'error', 'Please paste a valid proposal.');
+            const fileInput = document.getElementById('fileUpload');
+            const file = fileInput.files[0];
+
+            // Check if either text or file is provided
+            if (!file && text.length < 50) {
+                return showMsg('parseMsg', 'error', 'Please paste a proposal or upload a file.');
+            }
 
             setLoading('parseBtn', 'parseSpinner', true);
             hideMsg('parseMsg');
 
             try {
+                let proposalText = text;
+
+                // If file is uploaded, extract text from it first
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    const uploadRes = await fetch('/api/extract-file-text', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const uploadResult = await uploadRes.json();
+                    if (!uploadResult.success) throw new Error(uploadResult.error);
+
+                    proposalText = uploadResult.text;
+                }
+
+                // Now parse the proposal text (from either source)
                 const res = await fetch('/api/parse-proposal', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ proposalText: text })
+                    body: JSON.stringify({ proposalText })
                 });
                 const result = await res.json();
                 if (!result.success) throw new Error(result.error);
@@ -359,7 +392,7 @@ Includes: 20-page site, member directory, event calendar, payment processing..."
                 extracted = result.data;
                 fillFields(extracted);
                 document.getElementById('reviewPanel').classList.add('active');
-                showMsg('parseMsg', 'success', '✅ Details extracted! Review below and click Send.');
+                showMsg('parseMsg', 'success', '✅ Details extracted! Review below and click Review Contract.');
             } catch (e) {
                 showMsg('parseMsg', 'error', '❌ ' + e.message);
             } finally {
