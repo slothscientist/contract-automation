@@ -22,3 +22,8 @@ Thumbs.db
 *.swo
 *~
 uploads/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
